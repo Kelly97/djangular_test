@@ -1,24 +1,24 @@
 ## PASOS DE INSTALACIÓN
 ### Ejecute los siguientes comandos
 
-#### Creación y activación de ambiente virtual
+#### 1. Creación y activación de ambiente virtual
 ```
 python -m venv venv
 venv/Scripts/activate 
 ```
 
-#### instalación de requerimientos
+#### 2. instalación de requerimientos
 ```
 pip install -r requirements.txt
 ```
 
-#### Creación y ejecución de migraciones
+#### 3. Creación y ejecución de migraciones
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-#### Levantar servidor
+#### 4. Levantar servidor
 ```
 python manage.py runserver  
 ```
