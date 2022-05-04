@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'apps.book',
-    'apps.users',
+    'apps.conf',
+    'apps.sec',
     'rest_framework'
 ]
 
@@ -130,4 +130,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'apps_users.Users'
+AUTH_USER_MODEL = 'sec.Users'
