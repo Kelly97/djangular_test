@@ -32,3 +32,8 @@ python -m pip freeze > requirements.txt
 ```
 pip install -r requirements.txt
 ```
+### Crear superusuario
+```
+python manage.py createsuperuser
+```
+

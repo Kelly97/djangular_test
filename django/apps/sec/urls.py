@@ -1,12 +1,10 @@
-from django.urls import path, include
-from django.contrib.auth.models import User, Group
-from django.contrib import admin
-
-from apps.sec.views import GroupList, UserDetails, UserList
-admin.autodiscover()
+from django.urls import path
+from apps.sec.views import LoginAPI, RegisterAPI
+from knox import views as knox_views
 
 urlpatterns = [
-    path('users/', UserList.as_view()),
-    path('users/<pk>/', UserDetails.as_view()),
-    path('groups/', GroupList.as_view()),
+    path('register/', RegisterAPI.as_view(), name='register'),
+    path('login/', LoginAPI.as_view(), name='login'),
+    path('logout/', knox_views.LogoutView.as_view(), name='logout'),
+    path('logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
 ]

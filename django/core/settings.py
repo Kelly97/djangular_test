@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
+from rest_framework.settings import api_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'oauth2_provider',
+    'knox',
     # local apps
     'apps.conf',
     'apps.sec',
@@ -65,16 +67,20 @@ ROOT_URLCONF = 'core.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'knox.auth.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     )
 }
 
-OAUTH2_PROVIDER = {
-    # this is the list of available scopes
-    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+REST_KNOX = {
+  'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
+  'TOKEN_TTL': timedelta(hours=10),
+  'USER_SERIALIZER': 'knox.serializers.UserSerializer',
+  'TOKEN_LIMIT_PER_USER': None,
+  'AUTO_REFRESH': False,
+  'EXPIRY_DATETIME_FORMAT': api_settings.DATETIME_FORMAT,
 }
 
 TEMPLATES = [
@@ -149,5 +155,3 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'sec.Users'
-
-LOGIN_URL='/admin/login/'
