@@ -1,8 +1,26 @@
 <div>
   <mat-form-field appearance="outline">
-    <mat-label>Outline form field</mat-label>
+    <mat-label>Nombre de usuario</mat-label>
     <input matInput placeholder="Placeholder" />
     <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
+    <mat-hint></mat-hint>
   </mat-form-field>
+</div>
+<div>
+  <mat-form-field appearance="outline">
+    <mat-label>Enter your password</mat-label>
+    <input matInput [type]="hidePass ? 'password' : 'text'" />
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="hidePass = !hidePass"
+      [attr.aria-label]="'Ocultar contraseña'"
+      [attr.aria-pressed]="hidePass"
+    >
+      <mat-icon>{{ hidePass ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div>
+    <button mat-flat-button color="primary">Ingresar</button>
 </div>

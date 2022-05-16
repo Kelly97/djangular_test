@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService:AuthService) { }
 
+  hidePass = true;
+
   LoginForm = new FormGroup({
     username: new FormControl("", Validators.required),
     password: new FormControl("", Validators.required)
