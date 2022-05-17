@@ -9,10 +9,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  uri_api: string = environment.uri_api + '/sec';
+  uri_api: string = environment.uri_api + 'sec/';
 
   loginService(data: any) {
-    return this.http.post(this.uri_api + '/login', data);
+    return this.http.post(this.uri_api + 'login/', data);
   }
   
 }

@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { InternalErrorComponent } from './internal-error/internal-error.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -20,7 +21,9 @@ import { InternalErrorComponent } from './internal-error/internal-error.componen
   imports: [
     CommonModule,
     MaterialModule,
-    LayoutsRoutingModule
+    LayoutsRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class LayoutsModule { }
