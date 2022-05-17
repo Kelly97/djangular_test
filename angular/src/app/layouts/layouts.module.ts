@@ -8,6 +8,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { InternalErrorComponent } from './internal-error/internal-error.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ComponentsModule } from '../components/components.module';
 
 
 
@@ -16,14 +18,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginComponent,
     NotFoundComponent,
     AccessDeniedComponent,
-    InternalErrorComponent    
+    InternalErrorComponent,
+    DashboardComponent    
   ],
   imports: [
     CommonModule,
     MaterialModule,
     LayoutsRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ComponentsModule
   ]
 })
 export class LayoutsModule { }
