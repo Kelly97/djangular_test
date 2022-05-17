@@ -5,6 +5,8 @@ import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { NavigationService } from '../@vex/services/navigation.service';
 import icLayers from '@iconify/icons-ic/twotone-layers';
+import icSettings from '@iconify/icons-ic/outline-settings'
+import icCalendar from '@iconify/icons-ic/outline-edit-calendar'
 import { LayoutService } from '../@vex/services/layout.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
@@ -22,15 +24,15 @@ export class AppComponent {
   title = 'vex';
 
   constructor(private configService: ConfigService,
-              private styleService: StyleService,
-              private renderer: Renderer2,
-              private platform: Platform,
-              @Inject(DOCUMENT) private document: Document,
-              @Inject(LOCALE_ID) private localeId: string,
-              private layoutService: LayoutService,
-              private route: ActivatedRoute,
-              private navigationService: NavigationService,
-              private splashScreenService: SplashScreenService) {
+    private styleService: StyleService,
+    private renderer: Renderer2,
+    private platform: Platform,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(LOCALE_ID) private localeId: string,
+    private layoutService: LayoutService,
+    private route: ActivatedRoute,
+    private navigationService: NavigationService,
+    private splashScreenService: SplashScreenService) {
     Settings.defaultLocale = this.localeId;
 
     if (this.platform.BLINK) {
@@ -82,7 +84,19 @@ export class AppComponent {
         label: 'Dashboard',
         route: '/',
         icon: icLayers
-      }
+      },
+      {
+        type: 'link',
+        label: 'Configuración',
+        route: '/Config',
+        icon: icSettings
+      },
+      {
+        type: 'link',
+        label: 'Calendario',
+        route: '/Calendar',
+        icon: icCalendar
+      },
     ];
   }
 }

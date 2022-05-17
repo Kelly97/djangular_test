@@ -18,6 +18,7 @@ import icArrowDropDown from '@iconify/icons-ic/twotone-arrow-drop-down';
 import { PopoverService } from '../../components/popover/popover.service';
 import { MegaMenuComponent } from '../../components/mega-menu/mega-menu.component';
 import icSearch from '@iconify/icons-ic/twotone-search';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'vex-toolbar',
@@ -31,6 +32,7 @@ export class ToolbarComponent implements OnInit {
   @Input()
   @HostBinding('class.shadow-b')
   hasShadow: boolean;
+  appName: string = environment.appName;
 
   navigationItems = this.navigationService.items;
 

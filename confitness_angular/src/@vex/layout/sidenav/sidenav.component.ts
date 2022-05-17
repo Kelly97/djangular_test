@@ -6,6 +6,7 @@ import icRadioButtonUnchecked from '@iconify/icons-ic/twotone-radio-button-unche
 import { LayoutService } from '../../services/layout.service';
 import { ConfigService } from '../../services/config.service';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'vex-sidenav',
@@ -16,7 +17,7 @@ export class SidenavComponent implements OnInit {
 
   @Input() collapsed: boolean;
   collapsedOpen$ = this.layoutService.sidenavCollapsedOpen$;
-  title$ = this.configService.config$.pipe(map(config => config.sidenav.title));
+  title$ = environment.appName;
   imageUrl$ = this.configService.config$.pipe(map(config => config.sidenav.imageUrl));
   showCollapsePin$ = this.configService.config$.pipe(map(config => config.sidenav.showCollapsePin));
 
