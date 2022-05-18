@@ -12,11 +12,11 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('./pages/dashboards/dashboard-analytics/dashboard-analytics.module').then(m => m.DashboardAnalyticsModule),
+        loadChildren: () => import('./pages/dashboards/dashboard/dashboard.module').then(m => m.DashboardModule),
       },
       {
         path: 'config',
-        loadChildren: () => import('./pages/pages/modules/config/config.module').then(m => m.ConfigModule),
+        loadChildren: () => import('./pages/pages/config/config.module').then(m => m.ConfigModule),
       },
     ]
   },

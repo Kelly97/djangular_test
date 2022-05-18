@@ -15,8 +15,6 @@ import { CustomLayoutModule } from './custom-layout/custom-layout.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
-    // Vex
     VexModule,
     CustomLayoutModule
   ],

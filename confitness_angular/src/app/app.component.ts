@@ -86,17 +86,17 @@ export class AppComponent {
         icon: icLayers
       },
       {
-        type: 'link',
+        type: 'dropdown',
         label: 'Configuración',
-        route: '/Config',
-        icon: icSettings
-      },
-      {
-        type: 'link',
-        label: 'Calendario',
-        route: '/Calendar',
-        icon: icCalendar
-      },
+        icon: icSettings,
+        children: [
+          {
+            label: 'Espacios',
+            route: '/config/spaces', 
+            type: 'link'
+          }
+        ]
+      }
     ];
   }
 }
