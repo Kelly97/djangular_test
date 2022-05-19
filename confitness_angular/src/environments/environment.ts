@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  appName: "ConfiSpace"
+  appName: "ConfiSpace",
+  uri_api: 'http://localhost:8000/api/',
 };
 
 /*

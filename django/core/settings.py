@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # local apps
     'apps.conf',
     'apps.sec',
+    'apps.booking',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -106,9 +107,17 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': BASE_DIR / 'db.sqlite3',
+    #}
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'confi_space',
+        'USER': 'confi_space',
+        'PASSWORD': 'Confianza123$',
+        'HOST': '10.10.200.134',
+        'PORT': '5432',
     }
 }
 
@@ -135,7 +144,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-hn'
 
 TIME_ZONE = 'UTC'
 
@@ -154,4 +163,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'sec.Users'
+AUTH_USER_MODEL = 'sec.User'

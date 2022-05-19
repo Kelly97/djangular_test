@@ -1,23 +1,27 @@
 from django.db import models
 
-class Space(models.Model):
+from apps.utilities.models import ModelBase
+
+class Space(ModelBase):
     name = models.CharField(max_length=30)
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=100, blank=True, null=True)
     max_spots = models.IntegerField()
     is_active = models.BooleanField(default=True)
     increments = models.IntegerField()
     max_booking_days =  models.IntegerField()
-    created_by = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    daily_max_bookings =  models.IntegerField(blank=True, null=True)
+    weekly_max_bookings =  models.IntegerField(blank=True, null=True)
+    time_by_range =  models.BooleanField(default=False)
+    capacity =  models.IntegerField()
 
     class Meta:
         verbose_name = 'Espacio'
         verbose_name_plural = 'Espacios'
         ordering = ['name']
+        db_table = 'spaces'
 
 
-class Schedule(models.Model):
+class Schedule(ModelBase):
     DAYS_OF_WEEK = (
         (1, 'Lunes'),
         (2, 'Martes'),
@@ -35,14 +39,15 @@ class Schedule(models.Model):
     class Meta:
         verbose_name = 'Horario'
         verbose_name_plural = 'Horarios'
+        db_table = 'schedules'
 
-class Holidays(models.Model):
+class Holiday(ModelBase):
     date = models.DateField()
+    description = models.CharField(max_length=100, blank=True, null=True)
     is_active = models.BooleanField(default=True)
-    created_by = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
     class Meta:
-        verbose_name = 'Día feriado'
-        verbose_name_plural = 'Días feriados'
+        verbose_name = 'Día festivo'
+        verbose_name_plural = 'Días festivos'
+        db_table = 'holidays'
+    
         
