@@ -12,7 +12,7 @@ import { LocalstorageService } from './localstorage.service';
   providedIn: 'root',
 })
 export class TokenInterceptorService implements HttpInterceptor {
-  constructor(private inject: Injector) {}
+  constructor(private inject: Injector) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -26,7 +26,7 @@ export class TokenInterceptorService implements HttpInterceptor {
       },
     });
     if (token) {
-      headers.clone({
+      headers = headers.clone({
         setHeaders: { Authorization: `Token ${token}` },
       });
     }

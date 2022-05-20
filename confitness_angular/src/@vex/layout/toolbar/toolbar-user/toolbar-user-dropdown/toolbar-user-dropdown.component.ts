@@ -19,13 +19,9 @@ import icLock from '@iconify/icons-ic/twotone-lock';
 import icNotificationsOff from '@iconify/icons-ic/twotone-notifications-off';
 import { Icon } from '@visurel/iconify-angular';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
+import { LocalstorageService } from 'src/app/services/localstorage.service';
+import { AuthService } from 'src/app/services/auth.service';
 
-export interface OnlineStatus {
-  id: 'online' | 'away' | 'dnd' | 'offline';
-  label: string;
-  icon: Icon;
-  colorClass: string;
-}
 
 @Component({
   selector: 'vex-toolbar-user-dropdown',
@@ -70,35 +66,6 @@ export class ToolbarUserDropdownComponent implements OnInit {
     }
   ];
 
-  statuses: OnlineStatus[] = [
-    {
-      id: 'online',
-      label: 'Online',
-      icon: icCheckCircle,
-      colorClass: 'text-green'
-    },
-    {
-      id: 'away',
-      label: 'Away',
-      icon: icAccessTime,
-      colorClass: 'text-orange'
-    },
-    {
-      id: 'dnd',
-      label: 'Do not disturb',
-      icon: icDoNotDisturb,
-      colorClass: 'text-red'
-    },
-    {
-      id: 'offline',
-      label: 'Offline',
-      icon: icOfflineBolt,
-      colorClass: 'text-gray'
-    }
-  ];
-
-  activeStatus: OnlineStatus = this.statuses[0];
-
   trackById = trackById;
   icPerson = icPerson;
   icSettings = icSettings;
@@ -110,17 +77,20 @@ export class ToolbarUserDropdownComponent implements OnInit {
   icNotificationsOff = icNotificationsOff;
 
   constructor(private cd: ChangeDetectorRef,
-              private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
+    private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
+    private storage: LocalstorageService, private authService: AuthService) { }
 
   ngOnInit() {
   }
 
-  setStatus(status: OnlineStatus) {
-    this.activeStatus = status;
-    this.cd.markForCheck();
-  }
-
   close() {
     this.popoverRef.close();
+  }
+
+  logOut() {
+    this.authService.logoutService().subscribe(resp => {
+      this.close();
+      this.storage.logOut();
+    });
   }
 }

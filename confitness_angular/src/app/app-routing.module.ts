@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
+import { AuthGuard } from './guards/auth.guard';
+import { UnauthenticatedGuard } from './guards/unauthenticated.guard';
 
 const routes: Routes = [
   {
@@ -18,19 +20,23 @@ const routes: Routes = [
         path: 'config',
         loadChildren: () => import('./pages/pages/config/config.module').then(m => m.ConfigModule),
       },
-    ]
+    ],
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'login',
     loadChildren: () => import('./pages/pages/auth/login/login.module').then(m => m.LoginModule),
+    canActivate: [UnauthenticatedGuard]
   },
   {
     path: 'register',
     loadChildren: () => import('./pages/pages/auth/register/register.module').then(m => m.RegisterModule),
+    canActivate: [UnauthenticatedGuard]
   },
   {
     path: 'forgot-password',
     loadChildren: () => import('./pages/pages/auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule),
+    canActivate: [UnauthenticatedGuard]
   },
   {
     path: 'error-404',

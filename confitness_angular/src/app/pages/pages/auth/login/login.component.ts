@@ -64,15 +64,14 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.LoginForm.valid)
     if (this.LoginForm.valid) {
       this.authService
         .loginService(this.LoginForm.value)
         .subscribe((result: any) => {
-          console.log(result);
           if (result != null) {
             this.storageService.setToken(result.token);
-            //this.route.navigate([''])
+            this.storageService.setUser(result.user);
+            this.router.navigate(['/'])
           }
         });
     }

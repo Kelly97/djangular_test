@@ -1,9 +1,9 @@
 <div
-  class="w-full min-h-full bg-pattern"
+  class="w-full min-h-full bg-pattern px-4"
   fxLayout="column"
   fxLayoutAlign="center center"
 >
-  <div @fadeInUp class="card w-full max-w-xs my-5">
+  <div @fadeInUp class="card w-full max-w-lg my-5">
     <div class="p-6 pb-0" fxLayout="column" fxLayoutAlign="center center">
       <div class="fill-current text-center">
         <img class="w-16" src="assets/img/demo/logo.svg" />
@@ -18,18 +18,28 @@
     </div>
 
     <div [formGroup]="form" class="p-6" fxLayout="column" fxLayoutGap="16px">
-      <div fxFlex="auto" fxLayout="column">
-        <mat-form-field fxFlex="grow">
-          <mat-label>Nombre</mat-label>
-          <input formControlName="name" matInput required />
+      <div fxFlex="auto" fxLayout="row wrap">
+        <mat-form-field fxFlex="100" class="p-1">
+          <mat-label>Nombre de usuario</mat-label>
+          <input formControlName="username" matInput required />
         </mat-form-field>
 
-        <mat-form-field fxFlex="grow">
+        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+          <mat-label>Nombres</mat-label>
+          <input formControlName="first_name" matInput required />
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+          <mat-label>Apellidos</mat-label>
+          <input formControlName="last_name" matInput required />
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" class="p-1">
           <mat-label>Correo</mat-label>
           <input formControlName="email" matInput required />
         </mat-form-field>
 
-        <mat-form-field fxFlex="grow">
+        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
           <mat-label>Contraseña</mat-label>
           <input
             [type]="inputType"
@@ -49,7 +59,7 @@
           </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex="grow">
+        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
           <mat-label>Confirmar contraseña</mat-label>
           <input
             [type]="inputType"
@@ -76,7 +86,12 @@
           >Acepto <a>los términos y condiciones.</a></mat-checkbox
         >
       </div>
-      <button (click)="send()" color="primary" mat-raised-button type="button">
+      <button
+        (click)="register()"
+        color="primary"
+        mat-raised-button
+        type="button"
+      >
         CREAR
       </button>
       <p class="text-secondary text-center">

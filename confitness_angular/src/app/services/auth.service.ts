@@ -14,5 +14,13 @@ export class AuthService {
   loginService(data: any) {
     return this.http.post(this.uri_api + 'login/', data);
   }
-  
+
+  regiterService(data: any) {
+    return this.http.post(this.uri_api + 'register/', data);
+  }
+
+  logoutService() {
+    return this.http.post(this.uri_api + 'logout/', {});
+  }
+
 }
