@@ -88,8 +88,8 @@ export class ToolbarUserDropdownComponent implements OnInit {
   }
 
   logOut() {
-    this.authService.logoutService().subscribe(resp => {
-      this.close();
+    this.close();
+    this.authService.logoutService().subscribe(resp => {      
       this.storage.logOut();
     });
   }

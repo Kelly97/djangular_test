@@ -43,6 +43,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/pages/errors/error-404/error-404.module').then(m => m.Error404Module)
   },
   {
+    path: 'error-403',
+    loadChildren: () => import('./pages/pages/errors/error-403/error-403.module').then(m => m.Error403Module)
+  },
+  {
     path: 'error-500',
     loadChildren: () => import('./pages/pages/errors/error-500/error-500.module').then(m => m.Error500Module)
   },
