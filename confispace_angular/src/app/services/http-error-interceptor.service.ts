@@ -34,7 +34,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
             this.storage.logOut();
             break;
           case 403:
-            this.router.navigate(["/"]);
+            this.router.navigate(["/error-403"]);
             break;
           case 500:
             this.router.navigate(["/error-500"]);
