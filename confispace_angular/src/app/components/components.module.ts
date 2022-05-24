@@ -3,10 +3,12 @@ import { CommonModule } from "@angular/common";
 
 import { ComponentsRoutingModule } from "./components-routing.module";
 import { LoadingComponent } from "./loading/loading.component";
+import { NotifierComponent } from './notifier/notifier.component';
+import { MatButtonModule } from "@angular/material/button";
 
 @NgModule({
-  declarations: [LoadingComponent],
-  imports: [CommonModule, ComponentsRoutingModule],
-  exports: [LoadingComponent],
+  declarations: [LoadingComponent, NotifierComponent],
+  imports: [CommonModule, ComponentsRoutingModule, MatButtonModule],
+  exports: [LoadingComponent, NotifierComponent],
 })
-export class ComponentsModule {}
+export class ComponentsModule { }

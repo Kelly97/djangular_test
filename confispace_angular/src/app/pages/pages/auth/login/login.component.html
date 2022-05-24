@@ -54,7 +54,9 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="end center">
-        <a [routerLink]="['/forgot-password']" class="caption"
+        <a
+          [routerLink]="['/forgot-password']"
+          class="caption font-medium text-cyan"
           >¿Olvidó su contraseña?</a
         >
       </div>
@@ -65,7 +67,7 @@
 
       <p class="text-secondary text-center">
         ¿No tiene una cuenta?<br />
-        <a [routerLink]="['/register']">Clic aquí para crear una.</a>
+        <a [routerLink]="['/register']" class="font-medium text-cyan">Clic aquí para crear una.</a>
       </p>
     </div>
   </div>

@@ -1,8 +1,4 @@
-<div
-  class="w-full min-h-full bg-pattern px-4"
-  fxLayout="column"
-  fxLayoutAlign="center center"
->
+<div class="w-full min-h-full bg-pattern px-4" fxLayout="column" fxLayoutAlign="center center">
   <div @fadeInUp class="card w-full max-w-lg my-5">
     <div class="p-6 pb-0" fxLayout="column" fxLayoutAlign="center center">
       <div class="fill-current text-center">
@@ -41,19 +37,8 @@
 
         <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
           <mat-label>Contraseña</mat-label>
-          <input
-            [type]="inputType"
-            formControlName="password"
-            matInput
-            required
-          />
-          <button
-            (click)="toggleVisibility()"
-            mat-icon-button
-            matSuffix
-            matTooltip="Toggle Visibility"
-            type="button"
-          >
+          <input [type]="inputType" formControlName="password" matInput required />
+          <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
             <mat-icon *ngIf="visible" [icIcon]="icVisibility"></mat-icon>
             <mat-icon *ngIf="!visible" [icIcon]="icVisibilityOff"></mat-icon>
           </button>
@@ -61,19 +46,8 @@
 
         <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
           <mat-label>Confirmar contraseña</mat-label>
-          <input
-            [type]="inputType"
-            formControlName="passwordConfirm"
-            matInput
-            required
-          />
-          <button
-            (click)="toggleVisibility()"
-            mat-icon-button
-            matSuffix
-            matTooltip="Toggle Visibility"
-            type="button"
-          >
+          <input [type]="inputType" formControlName="passwordConfirm" matInput required />
+          <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
             <mat-icon *ngIf="visible" [icIcon]="icVisibility"></mat-icon>
             <mat-icon *ngIf="!visible" [icIcon]="icVisibilityOff"></mat-icon>
           </button>
@@ -82,21 +56,14 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-checkbox class="caption"
-          >Acepto <a>los términos y condiciones.</a></mat-checkbox
-        >
+        <mat-checkbox class="caption">Acepto <a>los términos y condiciones.</a></mat-checkbox>
       </div>
-      <button
-        (click)="register()"
-        color="primary"
-        mat-raised-button
-        type="button"
-      >
+      <button (click)="register()" color="primary" mat-raised-button type="button">
         CREAR
       </button>
       <p class="text-secondary text-center">
         ¿Ya tiene una cuenta?<br />
-        <a [routerLink]="['/login']">Ingrese aquí</a>
+        <a [routerLink]="['/login']" class="font-medium text-cyan">Ingrese aquí</a>
       </p>
     </div>
   </div>

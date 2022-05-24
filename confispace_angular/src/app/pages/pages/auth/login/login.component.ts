@@ -38,9 +38,9 @@ export class LoginComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private authService: AuthService,
     private storageService: StorageService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   toggleVisibility() {
     if (this.visible) {
@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.LoginForm.markAllAsTouched();
     if (this.LoginForm.valid) {
       this.authService
         .loginService(this.LoginForm.value)

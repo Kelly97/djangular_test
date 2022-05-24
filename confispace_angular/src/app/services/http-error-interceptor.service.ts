@@ -8,19 +8,19 @@ import {
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { StorageService } from "./storage.service";
+import { NotifyService } from "../components/services/notify.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class HttpErrorInterceptorService implements HttpInterceptor {
   constructor(
-    private snackbar: MatSnackBar,
     private router: Router,
-    private storage: StorageService
-  ) {}
+    private storage: StorageService,
+    private notifyService: NotifyService
+  ) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -41,9 +41,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
           default:
             break;
         }
-        this.snackbar.open(this.setError(error), "Cerrar", {
-          duration: 10000,
-        });
+        this.notifyService.show({ msg: this.setError(error) });
         return throwError(error.error);
       })
     );
@@ -56,7 +54,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
       errorMsg = error.error.message;
     } else {
       //server error
-      errorMsg = error.error.detail || "Lo sentimos. Ocurrió un error.";
+      errorMsg = error.error.detail || error.error.non_field_errors || "Lo sentimos. Ocurrió un error.";
     }
     return errorMsg;
   }

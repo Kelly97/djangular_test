@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import icSearch from '@iconify/icons-ic/twotone-search';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'vex-error404',
@@ -10,7 +11,7 @@ export class Error404Component implements OnInit {
 
   icSearch = icSearch;
 
-  constructor() { }
+  constructor(public location: Location) { }
 
   ngOnInit() {
   }
