@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class LocalstorageService {
+export class StorageService {
   constructor(private router: Router) { }
 
   saveItem(key: string, value: any): void {
@@ -24,7 +24,7 @@ export class LocalstorageService {
     return item ? JSON.parse(item) : null;
   }
 
-  clear(): void {
+  clearStorage(): void {
     localStorage.clear();
   }
 
@@ -49,7 +49,8 @@ export class LocalstorageService {
   }
 
   logOut(){
-    this.clear();
+    this.clearStorage();
     this.router.navigate(['/login']);
   }
+
 }

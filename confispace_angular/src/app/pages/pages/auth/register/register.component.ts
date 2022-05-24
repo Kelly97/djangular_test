@@ -4,7 +4,7 @@ import icVisibilityOff from '@iconify/icons-ic/twotone-visibility-off';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animation';
-import { LocalstorageService } from 'src/app/services/localstorage.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private authService: AuthService,
-    private storageService: LocalstorageService
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {

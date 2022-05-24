@@ -10,6 +10,9 @@ import { CustomLayoutModule } from "./custom-layout/custom-layout.module";
 import { TokenInterceptorService } from "./services/token-interceptor.service";
 import { HttpErrorInterceptorService } from "./services/http-error-interceptor.service";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { ComponentsModule } from "./components/components.module";
+import { LoadingInterceptorService } from "./services/loading-interceptor.service";
+import { HeadersInterceptorService } from "./services/headers-interceptor.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,9 +23,15 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     HttpClientModule,
     VexModule,
     CustomLayoutModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ComponentsModule,
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeadersInterceptorService,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
@@ -31,6 +40,11 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptorService,
       multi: true,
     },
   ],

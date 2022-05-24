@@ -1,4 +1,4 @@
-import { Injectable, Injector } from "@angular/core";
+import { Injectable } from "@angular/core";
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -7,10 +7,10 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
-import { LocalstorageService } from "./localstorage.service";
 import { catchError } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
+import { StorageService } from "./storage.service";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +19,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
   constructor(
     private snackbar: MatSnackBar,
     private router: Router,
-    private storage: LocalstorageService
+    private storage: StorageService
   ) {}
 
   intercept(
@@ -28,7 +28,6 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
         switch (error?.status) {
           case 401:
             this.storage.logOut();

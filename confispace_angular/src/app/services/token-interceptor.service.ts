@@ -1,36 +1,30 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { LocalstorageService } from './localstorage.service';
+} from "@angular/common/http";
+import { Observable } from "rxjs";
+import { StorageService } from "./storage.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TokenInterceptorService implements HttpInterceptor {
-  constructor(private inject: Injector) { }
+  constructor(private storageService: StorageService) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let storageService = this.inject.get(LocalstorageService);
-    const token = storageService.getToken();
-    let headers = req.clone({
-      setHeaders: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const token = this.storageService.getToken();
+    let headers = req.clone();
     if (token) {
-      headers = headers.clone({
+      headers = req.clone({
         setHeaders: { Authorization: `Token ${token}` },
       });
     }
-
     return next.handle(headers);
   }
 }

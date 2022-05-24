@@ -19,7 +19,7 @@ import icLock from '@iconify/icons-ic/twotone-lock';
 import icNotificationsOff from '@iconify/icons-ic/twotone-notifications-off';
 import { Icon } from '@visurel/iconify-angular';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
-import { LocalstorageService } from 'src/app/services/localstorage.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 
@@ -78,7 +78,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
   constructor(private cd: ChangeDetectorRef,
     private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
-    private storage: LocalstorageService, private authService: AuthService) { }
+    private storage: StorageService, private authService: AuthService) { }
 
   ngOnInit() {
   }
