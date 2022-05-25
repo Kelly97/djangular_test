@@ -1,3 +1,4 @@
+const colors = require('tailwindcss/colors')
 module.exports = {
   purge: {
     enabled: process.env.NODE_ENV === 'production',
@@ -78,7 +79,12 @@ module.exports = {
       warn: {
         light: 'rgba(var(--color-warn), .1)',
         DEFAULT: 'rgb(var(--color-warn))',
-      }
+      },
+      success: colors.green,
+      info: colors.blue,
+      error: colors.red,
+      warning: colors.yellow,
+      neutral: colors.gray,
     },
     spacing: {
       px: '1px',

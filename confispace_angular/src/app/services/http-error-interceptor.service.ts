@@ -41,7 +41,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
           default:
             break;
         }
-        this.notifyService.show({ msg: this.setError(error) });
+        this.notifyService.show({ msg: this.setError(error), type: 'error' });
         return throwError(error.error);
       })
     );

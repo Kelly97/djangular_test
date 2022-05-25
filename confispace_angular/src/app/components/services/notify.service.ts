@@ -11,13 +11,11 @@ export class NotifyService {
 
   show(data: notifierType) {
     this.snackbar.openFromComponent(NotifierComponent, {
-      data: {
-        msg: data.msg
-      },
+      data: data,
       duration: 10000000,
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
-      panelClass: data.type || 'bg-green'
+      panelClass: ['bg-' + data.type + '-50', 'text-' + data.type + '-700', 'text-black', 'w-screen', 'max-w-lg', 'rounded-xl']
     });
   }
 }

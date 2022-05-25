@@ -1,4 +1,14 @@
-<p>{{data.msg}}</p>
-<button mat-flat-button (click)="snackBarRef.dismiss()">
-    Hola
-</button>
+<div class="flex items-center">
+    <div class="w-14 pr-3">
+        <ic-icon [icon]="this['ic_' + data.type]" size="20px"></ic-icon>
+    </div>
+    <div>
+        <h4 class="font-semibold">{{data.title}}</h4>
+        <p>{{data.msg}}</p>
+    </div>
+    <div>
+        <button mat-icon-button aria-label="Cerrar" (click)="snackBarRef.dismiss()">
+            <ic-icon [icon]="ic_close" size="20px"></ic-icon>
+        </button>
+    </div>
+</div>
