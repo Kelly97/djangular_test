@@ -12,7 +12,7 @@ export class NotifyService {
   show(data: notifierType) {
     this.snackbar.openFromComponent(NotifierComponent, {
       data: data,
-      duration: 10000000,
+      duration: data.msg.toString().length * 150 || 120000,
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
       panelClass: ['bg-' + data.type + '-50', 'text-' + data.type + '-700', 'text-black', 'w-screen', 'max-w-lg', 'rounded-xl']

@@ -17,27 +17,30 @@
       <div fxFlex="auto" fxLayout="row wrap">
         <mat-form-field fxFlex="100" class="p-1">
           <mat-label>Nombre de usuario</mat-label>
-          <input formControlName="username" matInput required />
+          <input formControlName="username" matInput required maxlength="100" />
+          <mat-error *ngIf="form.get('username').hasError('required')">
+            El nombre de usuario es requerido.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
           <mat-label>Nombres</mat-label>
-          <input formControlName="first_name" matInput required />
+          <input formControlName="first_name" matInput required maxlength="150" />
         </mat-form-field>
 
         <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
           <mat-label>Apellidos</mat-label>
-          <input formControlName="last_name" matInput required />
+          <input formControlName="last_name" matInput required maxlength="150" />
         </mat-form-field>
 
         <mat-form-field fxFlex="100" class="p-1">
           <mat-label>Correo</mat-label>
-          <input formControlName="email" matInput required />
+          <input formControlName="email" matInput required maxlength="254" />
         </mat-form-field>
 
         <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
           <mat-label>Contraseña</mat-label>
-          <input [type]="inputType" formControlName="password" matInput required />
+          <input [type]="inputType" formControlName="password" matInput required maxlength="80" />
           <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
             <mat-icon *ngIf="visible" [icIcon]="icVisibility"></mat-icon>
             <mat-icon *ngIf="!visible" [icIcon]="icVisibilityOff"></mat-icon>
@@ -46,7 +49,7 @@
 
         <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
           <mat-label>Confirmar contraseña</mat-label>
-          <input [type]="inputType" formControlName="passwordConfirm" matInput required />
+          <input [type]="inputType" formControlName="passwordConfirm" matInput required maxlength="80" />
           <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
             <mat-icon *ngIf="visible" [icIcon]="icVisibility"></mat-icon>
             <mat-icon *ngIf="!visible" [icIcon]="icVisibilityOff"></mat-icon>

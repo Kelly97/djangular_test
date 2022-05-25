@@ -54,7 +54,17 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
       errorMsg = error.error.message;
     } else {
       //server error
-      errorMsg = error.error.detail || error.error.non_field_errors || "Lo sentimos. Ocurrió un error.";
+      errorMsg = error.error.detail || error.error.non_field_errors;
+      if (!errorMsg) {
+        switch (error.status) {
+          case 400:
+            errorMsg = "No fue posible ejecutar el proceso."
+            break;
+          default:
+            errorMsg = "Lo sentimos. Ocurrió un error."
+            break;
+        }
+      }
     }
     return errorMsg;
   }
