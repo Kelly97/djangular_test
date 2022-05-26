@@ -36,6 +36,7 @@
             formControlName="password"
             matInput
             required
+            (keyup.enter)="login()"
           />
           <button
             (click)="toggleVisibility()"

@@ -1,0 +1,82 @@
+<vex-page-layout mode="card">
+    <vex-page-layout-header class="h-6"></vex-page-layout-header>
+
+    <vex-page-layout-content vexContainer>
+        <div class="card p-6">
+            <div fxLayout="row" fxLayout.lt-xl="column">
+                <div @fadeInUp fxFlex="100">
+                    <div class="md:px-6 py-4 border-b">
+                        <h2 class="m-0">Nuevo Espacio</h2>
+                    </div>
+                    <div class="md:px-6 py-4" fxLayout="row wrap" fxLayoutGap.xs="0">
+                        <mat-form-field fxFlex="100" class="p-1">
+                            <mat-label>Nombre</mat-label>
+                            <input #nameLengthHint matInput maxlength="30" />
+                            <mat-hint align="end">{{ nameLengthHint.value.length }}/30</mat-hint>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="100" class="p-1">
+                            <mat-label>Descripción</mat-label>
+                            <textarea #descLengthHint matInput maxlength="100"></textarea>
+                            <mat-hint align="end">{{ descLengthHint.value.length }}/100</mat-hint>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+                            <mat-label>Número máximo de asistentes</mat-label>
+                            <input matInput maxlength="5" />
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+                            <mat-label>Días máximos habilitados</mat-label>
+                            <input matInput maxlength="6" />
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+                            <mat-label>Incrementos del horario (minutos)</mat-label>
+                            <input matInput maxlength="6" />
+                        </mat-form-field>
+
+                        <mat-checkbox color="primary" [checked]="true" fxFlex="100" class="p-1">Espacio habilitado
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div @fadeInUp fxFlex="100">
+                    <div class="md:px-6 py-4 border-b">
+                        <h2 class="m-0">Configuración de Horarios</h2>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" class="border-b p-6">
+                        <div style="width: 300px" class="py-3">
+                            <mat-checkbox>Miércoles</mat-checkbox>
+                        </div>
+                        <div fxLayout="column">
+                            <div fxLayout="row" fxLayoutGap="10px">
+                                <mat-form-field class="w-32">
+                                    <input matInput />
+                                </mat-form-field>
+                                <mat-icon [icIcon]="icHypen" class="mt-4"></mat-icon>
+                                <mat-form-field class="w-32">
+                                    <input matInput />
+                                </mat-form-field>
+                                <button mat-icon-button aria-label="Eliminar" class="mt-2">
+                                    <mat-icon [icIcon]="icDelete"></mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="end start" class="w-full">
+                            <button mat-icon-button aria-label="Agregar">
+                                <mat-icon [icIcon]="icAdd"></mat-icon>
+                            </button>
+                            <button mat-icon-button aria-label="Copiar">
+                                <mat-icon [icIcon]="icCopy"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" class="mt-5">
+                <button mat-button type="button">Cancelar</button>
+                <button color="primary" mat-raised-button type="button">Guardar</button>
+            </div>
+        </div>
+    </vex-page-layout-content>
+</vex-page-layout>

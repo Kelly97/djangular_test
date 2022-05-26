@@ -50,4 +50,4 @@ import { HeadersInterceptorService } from "./services/headers-interceptor.servic
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

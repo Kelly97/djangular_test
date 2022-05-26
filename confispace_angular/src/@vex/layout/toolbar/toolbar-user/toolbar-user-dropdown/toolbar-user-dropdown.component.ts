@@ -35,34 +35,10 @@ export class ToolbarUserDropdownComponent implements OnInit {
     {
       id: '1',
       icon: icAccountCircle,
-      label: 'My Profile',
-      description: 'Personal Information',
+      label: 'Mi Perfil',
+      description: 'Información Personal',
       colorClass: 'text-teal',
       route: '/apps/social'
-    },
-    {
-      id: '2',
-      icon: icMoveToInbox,
-      label: 'My Inbox',
-      description: 'Messages & Latest News',
-      colorClass: 'text-primary',
-      route: '/apps/chat'
-    },
-    {
-      id: '3',
-      icon: icListAlt,
-      label: 'My Projects',
-      description: 'Tasks & Active Projects',
-      colorClass: 'text-amber',
-      route: '/apps/scrumboard'
-    },
-    {
-      id: '4',
-      icon: icTableChart,
-      label: 'Billing Information',
-      description: 'Pricing & Current Plan',
-      colorClass: 'text-purple',
-      route: '/pages/pricing'
     }
   ];
 
@@ -78,7 +54,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
   constructor(private cd: ChangeDetectorRef,
     private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
-    private storage: StorageService, private authService: AuthService) { }
+    public storage: StorageService, private authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -89,7 +65,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
   logOut() {
     this.close();
-    this.authService.logoutService().subscribe(resp => {      
+    this.authService.logoutService().subscribe(resp => {
       this.storage.logOut();
     });
   }
