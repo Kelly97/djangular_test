@@ -8,6 +8,7 @@ import icDisable from '@iconify/icons-ic/remove-circle-outline'
 import icAdd from '@iconify/icons-ic/round-add-circle-outline'
 import { ActivatedRoute } from '@angular/router';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { SpacesService } from '../services/spaces.service';
 
 @Component({
   selector: 'vex-spaces',
@@ -24,17 +25,19 @@ export class SpacesComponent implements OnInit {
   icDisable = icDisable;
   icAdd = icAdd;
 
-  spaces = [
-    {
-      id: 1,
-      name: 'ZonaFit',
-      description: 'Espacio para entrenamiento físico.',
-      is_active: true,
-      capacity: 5
-    }
-  ]
+  spaces = []
 
-  constructor(public navigation: NavigationService, public route: ActivatedRoute) { }
+  constructor(public navigation: NavigationService, public route: ActivatedRoute, private spaceServices: SpacesService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.getSpaces();
+  }
+
+  getSpaces() {
+    this.spaceServices.getSpacesGeneral().subscribe((resp: any) => {
+      this.spaces = resp;
+    })
+  }
+
+  disable() { }
 }

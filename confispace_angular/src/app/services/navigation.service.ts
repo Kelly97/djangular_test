@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private location: Location) { }
 
-  goBack(route: ActivatedRoute) {
-    this.router.navigate(['../'], { relativeTo: route });
+  goBack() {
+    this.location.back();
   }
 
   relativeNavigate(commands: any[], route: ActivatedRoute) {
