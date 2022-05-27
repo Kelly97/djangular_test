@@ -25,9 +25,8 @@ export class SpaceFormComponent implements OnInit {
   icPeople = icPeople;
   icClock = icClock;
 
-  constructor(public navigation: NavigationService) { }
+  constructor(public navigation: NavigationService, public route: ActivatedRoute) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 }

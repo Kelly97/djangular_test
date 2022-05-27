@@ -6,13 +6,13 @@
   </vex-page-layout-header>
 
   <vex-page-layout-content vexContainer>
-
     <div fxLayout="row wrap" fxLayout.lt-sm="column">
-
       <div fxFlex="50%" fxFlex.md="33.3%" fxFlex.gt-md="25%" class="p-3">
         <div
           class="border-dashed border-2 border-info-600 hover:border-info-900 rounded-lg h-full w-full flex items-center justify-center hover:shadow-xl cursor-pointer text-info-600 hover:text-info-900"
-          (click)="newSpace()">
+          style="min-height: 180px;"
+          (click)="navigation.relativeNavigate(['create'], route)"
+        >
           <div class="text-center">
             <mat-icon [icIcon]="icAdd"></mat-icon>
             <h6>Agregar</h6>
@@ -20,13 +20,30 @@
         </div>
       </div>
 
-      <div fxFlex="50%" fxFlex.md="33.3%" fxFlex.gt-md="25%" class="p-3">
-        <div class="card p-6 relative hover:shadow-16 trans-shadow" fxLayout="column" fxLayoutAlign="start center">
-          <button class="absolute top-0 right-0 mt-2 mr-1" mat-icon-button [matMenuTriggerFor]="spaceMenu">
+      <div
+        fxFlex="50%"
+        fxFlex.md="33.3%"
+        fxFlex.gt-md="25%"
+        class="p-3"
+        *ngFor="let space of spaces"
+      >
+        <div
+          class="card p-6 relative hover:shadow-16 trans-shadow"
+          fxLayout="column"
+          fxLayoutAlign="start center"
+        >
+          <button
+            class="absolute top-0 right-0 mt-2 mr-1"
+            mat-icon-button
+            [matMenuTriggerFor]="spaceMenu"
+          >
             <mat-icon [icIcon]="icDots" height="22px" width="22px"></mat-icon>
           </button>
           <mat-menu #spaceMenu="matMenu">
-            <button mat-menu-item>
+            <button
+              mat-menu-item
+              (click)="navigation.relativeNavigate(['edit', space.id], route)"
+            >
               <mat-icon [icIcon]="icEdit"></mat-icon>
               <span>Editar</span>
             </button>
@@ -35,15 +52,17 @@
               <span>Deshabilitar</span>
             </button>
           </mat-menu>
-          <div class="rounded-full w-12 h-12 flex items-center justify-center text-primary bg-primary-light">
+          <div
+            class="rounded-full w-12 h-12 flex items-center justify-center text-primary bg-primary-light"
+          >
             <mat-icon [icIcon]="icRoom"></mat-icon>
           </div>
-          <h2 class="display-1 font-semibold mt-4 mb-2">ZonaFit</h2>
-          <h3 class="subheading-2 font-medium text-secondary m-0">Espacio para entrenamiento físico.</h3>
+          <h2 class="display-1 font-semibold mt-4 mb-2 text text-center">{{ space.name }}</h2>
+          <h3 class="subheading-2 font-medium text-secondary m-0 text-center">
+            {{ space.description | truncate:40 }}
+          </h3>
         </div>
       </div>
-
     </div>
-
   </vex-page-layout-content>
 </vex-page-layout>

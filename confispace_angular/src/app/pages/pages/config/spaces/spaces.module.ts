@@ -6,6 +6,7 @@ import { SpacesComponent } from './spaces.component';
 import { ConfigModule } from '../config.module';
 import { SpaceFormComponent } from './space-form/space-form.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { TruncateModule } from 'src/app/pipes/truncate/truncate.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MatMenuModule } from '@angular/material/menu';
     CommonModule,
     SpacesRoutingModule,
     ConfigModule,
-    MatMenuModule
+    MatMenuModule,
+    TruncateModule
   ]
 })
 export class SpacesModule { }

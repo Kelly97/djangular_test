@@ -1,5 +1,4 @@
 from django.db import models
-
 from apps.utilities.models import ModelBase
 
 class Space(ModelBase):

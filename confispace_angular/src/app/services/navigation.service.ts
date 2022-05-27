@@ -6,13 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class NavigationService {
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router) { }
 
-  goBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+  goBack(route: ActivatedRoute) {
+    this.router.navigate(['../'], { relativeTo: route });
   }
 
-  relativeNavigate(route: string) {
-    this.router.navigate([route], { relativeTo: this.route });
+  relativeNavigate(commands: any[], route: ActivatedRoute) {
+    this.router.navigate(commands, { relativeTo: route });
   }
 }

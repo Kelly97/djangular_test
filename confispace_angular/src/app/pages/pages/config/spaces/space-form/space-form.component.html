@@ -32,6 +32,21 @@
                         </mat-form-field>
 
                         <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+                            <mat-label>Reservas máximas por día</mat-label>
+                            <input matInput maxlength="6" />
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+                            <mat-label>Reservas máximas por semana</mat-label>
+                            <input matInput maxlength="6" />
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+                            <mat-label>Capacidad de asistentes</mat-label>
+                            <input matInput maxlength="6" />
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
                             <mat-label>Incrementos del horario (minutos)</mat-label>
                             <input matInput maxlength="6" />
                         </mat-form-field>
@@ -74,7 +89,7 @@
                 </div>
             </div>
             <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" class="mt-5">
-                <button mat-button type="button" (click)="navigation.goBack()">Cancelar</button>
+                <button mat-button type="button" (click)="navigation.goBack(route)">Cancelar</button>
                 <button color="primary" mat-raised-button type="button">Guardar</button>
             </div>
         </div>
