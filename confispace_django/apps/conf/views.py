@@ -1,10 +1,10 @@
-from rest_framework.generics import ListAPIView
-from rest_framework.generics import CreateAPIView
-from rest_framework.generics import DestroyAPIView
-from rest_framework.generics import UpdateAPIView
-from rest_framework.generics import RetrieveAPIView
-from apps.conf.models import Space
-from apps.conf.serializers import SpaceBasicSerializer, SpaceSerializer
+from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateAPIView
+from rest_framework import permissions
+from apps.conf.models import Space, Holiday
+from apps.conf.serializers import HolidayBasicSerializer, HolidaySerializer, SpaceBasicSerializer, SpaceSerializer
+
+
+""" SPACES """
 
 
 class SpaceGeneralViewSet(ListAPIView):
@@ -16,8 +16,9 @@ class SpaceDetailedViewSet(ListAPIView):
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
 
+
 class SpaceDetailsViewSet(RetrieveAPIView):
-    #permission_classes = [IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
 
@@ -35,3 +36,31 @@ class UpdateSpaceAPIView(UpdateAPIView):
 class DeleteSpaceAPIView(DestroyAPIView):
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
+
+
+""" HOLIDAYS """
+
+
+class HolidaysListView(ListAPIView):
+    serializer_class = HolidayBasicSerializer
+
+    def get_queryset(self):
+        return Holiday.objects.filter(is_active=True)
+
+
+class HolidaysListCreateView(ListCreateAPIView):
+    permission_classes = [permissions.IsAdminUser]
+    queryset = Holiday.objects.all()
+    serializer_class = HolidaySerializer
+
+
+class HolidayRetrieveUpdateView(RetrieveUpdateAPIView):
+    permission_classes = [permissions.IsAdminUser]
+    queryset = Holiday.objects.all()
+    serializer_class = HolidaySerializer
+
+
+class HolidayDestroyView(DestroyAPIView):
+    permission_classes = [permissions.IsAdminUser]
+    queryset = Holiday.objects.all()
+    serializer_class = HolidaySerializer

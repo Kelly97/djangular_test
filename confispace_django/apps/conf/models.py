@@ -1,17 +1,18 @@
 from django.db import models
 from apps.utilities.models import ModelBase
 
+
 class Space(ModelBase):
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=100, blank=True, null=True)
     max_spots = models.IntegerField()
     is_active = models.BooleanField(default=True)
     increments = models.IntegerField()
-    max_booking_days =  models.IntegerField()
-    daily_max_bookings =  models.IntegerField(blank=True, null=True)
-    weekly_max_bookings =  models.IntegerField(blank=True, null=True)
-    time_by_range =  models.BooleanField(default=False)
-    capacity =  models.IntegerField()
+    max_booking_days = models.IntegerField()
+    daily_max_bookings = models.IntegerField(blank=True, null=True)
+    weekly_max_bookings = models.IntegerField(blank=True, null=True)
+    time_by_range = models.BooleanField(default=False)
+    capacity = models.IntegerField()
 
     class Meta:
         verbose_name = 'Espacio'
@@ -32,21 +33,24 @@ class Schedule(ModelBase):
     )
     space = models.ForeignKey(Space, on_delete=models.CASCADE)
     day = models.CharField(max_length=1, choices=DAYS_OF_WEEK)
-    start_time =  models.TimeField()
-    end_time =  models.TimeField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
 
     class Meta:
         verbose_name = 'Horario'
         verbose_name_plural = 'Horarios'
         db_table = 'schedules'
 
+
 class Holiday(ModelBase):
-    date = models.DateField()
+    date = models.DateField(unique=True,
+                            error_messages={
+                                "unique": "A holiday with that date already exists.",
+                            })
     description = models.CharField(max_length=100, blank=True, null=True)
     is_active = models.BooleanField(default=True)
+
     class Meta:
         verbose_name = 'Día festivo'
         verbose_name_plural = 'Días festivos'
         db_table = 'holidays'
-    
-        
