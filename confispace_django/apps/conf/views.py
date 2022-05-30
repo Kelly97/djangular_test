@@ -2,7 +2,7 @@ from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIVie
 from rest_framework import permissions
 from apps.conf.models import Space, Holiday
 from apps.conf.serializers import HolidayBasicSerializer, HolidaySerializer, SpaceBasicSerializer, SpaceSerializer
-
+from apps.utilities.views import BaseViewSet
 
 """ SPACES """
 
@@ -13,6 +13,7 @@ class SpaceGeneralViewSet(ListAPIView):
 
 
 class SpaceDetailedViewSet(ListAPIView):
+    permission_classes = [permissions.IsAdminUser]
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
 
@@ -23,17 +24,20 @@ class SpaceDetailsViewSet(RetrieveAPIView):
     serializer_class = SpaceSerializer
 
 
-class CreateSpaceoAPIView(CreateAPIView):
+class CreateSpaceoAPIView(BaseViewSet, CreateAPIView):
+    permission_classes = [permissions.IsAdminUser]
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
 
 
-class UpdateSpaceAPIView(UpdateAPIView):
+class UpdateSpaceAPIView(BaseViewSet, UpdateAPIView):
+    permission_classes = [permissions.IsAdminUser]
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
 
 
 class DeleteSpaceAPIView(DestroyAPIView):
+    permission_classes = [permissions.IsAdminUser]
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
 
@@ -48,13 +52,13 @@ class HolidaysListView(ListAPIView):
         return Holiday.objects.filter(is_active=True)
 
 
-class HolidaysListCreateView(ListCreateAPIView):
+class HolidaysListCreateView(BaseViewSet, ListCreateAPIView):
     permission_classes = [permissions.IsAdminUser]
     queryset = Holiday.objects.all()
     serializer_class = HolidaySerializer
 
 
-class HolidayRetrieveUpdateView(RetrieveUpdateAPIView):
+class HolidayRetrieveUpdateView(BaseViewSet, RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAdminUser]
     queryset = Holiday.objects.all()
     serializer_class = HolidaySerializer
