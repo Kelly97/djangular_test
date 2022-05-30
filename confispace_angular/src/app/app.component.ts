@@ -15,10 +15,17 @@ import { SplashScreenService } from '../@vex/services/splash-screen.service';
 import { Style, StyleService } from '../@vex/services/style.service';
 import { ConfigName } from '../@vex/interfaces/config-name.model';
 
+import localeEsHn from '@angular/common/locales/es-HN';
+import { registerLocaleData } from "@angular/common";
+registerLocaleData(localeEsHn);
+
 @Component({
   selector: 'vex-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es-Hn' }
+  ],
 })
 export class AppComponent {
   title = 'vex';
@@ -82,7 +89,7 @@ export class AppComponent {
       {
         type: 'link',
         label: 'Dashboard',
-        route: '/',
+        route: '/dashboard',
         icon: icLayers
       },
       {
@@ -92,7 +99,12 @@ export class AppComponent {
         children: [
           {
             label: 'Espacios',
-            route: '/config/spaces', 
+            route: '/config/spaces',
+            type: 'link'
+          },
+          {
+            label: 'Días Festivos',
+            route: '/config/holidays',
             type: 'link'
           }
         ]

@@ -8,6 +8,10 @@ const routes: Routes = [
       {
         path: 'spaces',
         loadChildren: () => import('./spaces/spaces.module').then(m => m.SpacesModule)
+      },
+      {
+        path: 'holidays',
+        loadChildren: () => import('./holidays/holidays.module').then(m => m.HolidaysModule)
       }
     ]
   }

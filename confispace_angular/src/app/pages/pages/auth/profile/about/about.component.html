@@ -1,0 +1,77 @@
+<div class="mt-6 flex flex-col md:flex-row md:items-start">
+    <div class="flex-auto">
+        <div class="card">
+            <div class="px-gutter py-4 border-b" fxLayout="row" fxLayoutAlign="start center">
+                <h2 class="title m-0">Información General</h2>
+                <button mat-icon-button type="button" color="primary" class="ml-2" matTooltip="Editar">
+                    <mat-icon [icIcon]="icEdit"></mat-icon>
+                </button>
+            </div>
+
+            <div class="px-gutter py-4" gdColumns.gt-md="1fr 1fr 1fr" gdColumns="1fr" gdGap="16px">
+                <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                    <div @scaleIn
+                        class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                        <ic-icon [icon]="icPerson" size="20px"></ic-icon>
+                    </div>
+
+                    <div @fadeInRight>
+                        <p class="m-0 body-1">Kirara Wagner</p>
+                        <p class="m-0 caption text-hint">Nombre completo</p>
+                    </div>
+                </div>
+
+                <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                    <div @scaleIn
+                        class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                        <ic-icon [icon]="icMail" size="20px"></ic-icon>
+                    </div>
+
+                    <div @fadeInRight>
+                        <p class="m-0 body-1">david.smith@example.com</p>
+                        <p class="m-0 caption text-hint">Correo</p>
+                    </div>
+                </div>
+
+                <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                    <div @scaleIn
+                        class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                        <ic-icon [icon]="icClock" size="20px"></ic-icon>
+                    </div>
+
+                    <div @fadeInRight>
+                        <p class="m-0 body-1">{{ "2022-05-30 11:52:34.083 -0600" | date:'MMMM d y \'a las\' h:mm a' }}
+                        </p>
+                        <p class="m-0 caption text-hint">Último inicio de sesión</p>
+                    </div>
+                </div>
+
+                <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                    <div @scaleIn
+                        class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                        <ic-icon [icon]="icCalendar" size="20px"></ic-icon>
+                    </div>
+
+                    <div @fadeInRight>
+                        <p class="m-0 body-1">{{ "2022-05-20 16:31:47.721 -0600" | date:'MMMM d y \'a las\' h:mm a' }}
+                        </p>
+                        <p class="m-0 caption text-hint">Fecha de registro</p>
+                    </div>
+                </div>
+
+                <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                    <div @scaleIn
+                        class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                        <ic-icon [icon]="icPassword" size="20px"></ic-icon>
+                    </div>
+
+                    <div @fadeInRight>
+                        <button mat-button color="primary" class="p-0">Cambiar Contraseña</button>
+                        <p class="m-0 caption text-hint">Contraseña</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/dashboards/dashboard/dashboard.module').then(m => m.DashboardModule),
       },
       {
+        path: 'profile',
+        loadChildren: () => import('./pages/pages/auth/profile/profile.module').then(m => m.ProfileModule),
+      },
+      {
         path: 'config',
         loadChildren: () => import('./pages/pages/config/config.module').then(m => m.ConfigModule),
       },
