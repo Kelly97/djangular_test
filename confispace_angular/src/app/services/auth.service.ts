@@ -12,19 +12,19 @@ export class AuthService {
   uri_api: string = environment.uri_api + 'sec/';
 
   loginService(data: any) {
-    return this.http.post(this.uri_api + 'login/', data, {
-      headers: new HttpHeaders({
-        'skipNotifier': 'true',
-      })
-    });
+    return this.http.post(this.uri_api + 'login/', data, { headers: environment.skipNotifierHeader });
   }
 
   regiterService(data: any) {
-    return this.http.post(this.uri_api + 'register/', data);
+    return this.http.post(this.uri_api + 'register/', data, { headers: environment.skipNotifierHeader });
   }
 
   logoutService() {
-    return this.http.post(this.uri_api + 'logout/', {});
+    return this.http.post(this.uri_api + 'logout/', {}, { headers: environment.skipNotifierHeader });
+  }
+
+  profile() {
+    return this.http.get(this.uri_api + 'profile/');
   }
 
 }

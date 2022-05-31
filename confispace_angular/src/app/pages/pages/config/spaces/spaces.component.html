@@ -8,7 +8,7 @@
   <vex-page-layout-content vexContainer>
     <div fxLayout="row wrap" fxLayout.lt-sm="column">
       <div fxFlex="50%" fxFlex.md="33.3%" fxFlex.gt-md="25%" class="p-3">
-        <div
+        <div matRipple
           class="border-dashed border-2 border-info-600 hover:border-info-900 rounded-lg h-full w-full flex items-center justify-center hover:shadow-xl cursor-pointer text-info-600 hover:text-info-900"
           style="min-height: 250px;" (click)="navigation.relativeNavigate(['create'], route)">
           <div class="text-center">
@@ -32,6 +32,10 @@
             <button mat-menu-item>
               <mat-icon [icIcon]="space.is_active? icDisable: icEnable"></mat-icon>
               <span>{{space.is_active? "Deshabilitar": "Habilitar"}}</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon [icIcon]="icDelete"></mat-icon>
+              <span>Eliminar</span>
             </button>
           </mat-menu>
           <div class="rounded-full w-12 h-12 flex items-center justify-center text-primary bg-primary-light"

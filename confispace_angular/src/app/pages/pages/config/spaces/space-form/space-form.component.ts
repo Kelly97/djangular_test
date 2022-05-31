@@ -69,7 +69,8 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
     }
   );
 
-  constructor(public navigation: NavigationService, private route: ActivatedRoute, private spaceServices: SpacesService) { }
+  constructor(public navigation: NavigationService, private route: ActivatedRoute, private spaceServices: SpacesService) {
+  }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
@@ -79,6 +80,7 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
       }
     });
   }
+
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();

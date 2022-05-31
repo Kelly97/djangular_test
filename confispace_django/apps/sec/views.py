@@ -1,11 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import permissions
+from rest_framework.generics import RetrieveAPIView
 from knox.models import AuthToken
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.contrib.auth import login
 from knox.views import LoginView as KnoxLoginView
+from apps.sec.models import User
 from apps.sec.serializers import RegisterSerializer, UserSerializer
 
 class RegisterAPI(APIView):
@@ -36,3 +37,9 @@ class LoginAPI(KnoxLoginView):
             }, 
             'token': AuthToken.objects.create(user)[1]
         })
+
+class UserProfile(RetrieveAPIView):
+    serializer_class = UserSerializer
+    def get_object(self):
+        if self.request.user.is_authenticated:
+            return self.request.user

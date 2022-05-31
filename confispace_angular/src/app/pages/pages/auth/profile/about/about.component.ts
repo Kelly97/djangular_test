@@ -9,6 +9,10 @@ import icClock from '@iconify/icons-ic/outline-query-builder';
 import icCalendar from '@iconify/icons-ic/event';
 import icEdit from '@iconify/icons-ic/outline-edit';
 import icPassword from '@iconify/icons-ic/outline-password';
+import { AuthService } from 'src/app/services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { UserFormComponent } from './user-form/user-form.component';
 
 @Component({
   selector: 'vex-about',
@@ -30,9 +34,34 @@ export class AboutComponent implements OnInit {
   icEdit = icEdit;
   icPassword = icPassword;
 
-  constructor() { }
+  profile;
+
+  constructor(private authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.getProfile();
+  }
+
+  getProfile() {
+    this.authService.profile().subscribe(resp => this.profile = resp);
+  }
+
+  changePassword(): void {
+    const dialogRef = this.dialog.open(ChangePasswordComponent, {
+      minWidth: '250px'
+    });
+  }
+
+  updateUser(): void {
+    const dialogRef = this.dialog.open(UserFormComponent, {
+      minWidth: '250px',
+      data: this.profile
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.profile = { ...this.profile, ...result };
+    });
   }
 
 }

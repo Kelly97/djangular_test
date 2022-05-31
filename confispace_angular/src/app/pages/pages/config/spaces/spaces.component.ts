@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
+
 import icDots from '@iconify/icons-ic/more-vert'
 import icRoom from '@iconify/icons-ic/room'
 import icEdit from '@iconify/icons-ic/outline-edit'
 import icEnable from '@iconify/icons-ic/round-check-circle-outline'
 import icDisable from '@iconify/icons-ic/remove-circle-outline'
 import icAdd from '@iconify/icons-ic/round-add-circle-outline'
+import icDelete from '@iconify/icons-ic/twotone-delete';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { SpacesService } from '../services/spaces.service';
@@ -24,6 +26,7 @@ export class SpacesComponent implements OnInit {
   icEnable = icEnable;
   icDisable = icDisable;
   icAdd = icAdd;
+  icDelete = icDelete;
 
   spaces = []
 

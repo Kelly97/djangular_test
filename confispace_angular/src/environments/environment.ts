@@ -2,11 +2,16 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { HttpHeaders } from "@angular/common/http";
+
 export const environment = {
   production: false,
   appName: "ConfiSpace",
   uri_api: 'http://localhost:8000/api/',
-  standardDate: 'YYYY-MM-DD'
+  standardDate: 'YYYY-MM-DD',
+  skipNotifierHeader: new HttpHeaders({'skipNotifier': 'true',}),
+  skipHeaders: new HttpHeaders({'skipHeaders': 'true',}),
+  skipLoadingHeader: new HttpHeaders({'skipLoading': 'true',}),
 };
 
 /*

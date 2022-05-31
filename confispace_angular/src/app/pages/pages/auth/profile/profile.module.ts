@@ -11,12 +11,20 @@ import { AboutComponent } from './about/about.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UserFormComponent } from './about/user-form/user-form.component';
+import { ChangePasswordComponent } from './about/change-password/change-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
-    AboutComponent
+    AboutComponent,
+    UserFormComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +35,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatIconModule,
     MatRippleModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDividerModule,
+    MatDialogModule
   ]
 })
 export class ProfileModule { }
