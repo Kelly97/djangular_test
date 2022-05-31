@@ -90,7 +90,6 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
 
   getInfo() {
     this.spaceServices.getSpace(this.currentId).subscribe((resp: any) => {
-      console.log(resp)
       Object.keys(this.form.controls).forEach((key) => {
         this.form.controls[key].setValue(resp[key]);
       });

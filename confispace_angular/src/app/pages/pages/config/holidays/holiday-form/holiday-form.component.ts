@@ -4,14 +4,19 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Holiday } from '../../interfaces/holiday';
 import icClose from '@iconify/icons-ic/twotone-close';
 import { HolidaysService } from '../../services/holidays.service';
-import moment from 'moment';
-import { environment } from 'src/environments/environment';
+import { commonFunctions } from "src/app/utilities/common-functions";
 
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'vex-holiday-form',
   templateUrl: './holiday-form.component.html',
   styleUrls: ['./holiday-form.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+  ]
 })
 export class HolidayFormComponent implements OnInit {
 
@@ -41,6 +46,9 @@ export class HolidayFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.defaults) {
       this.mode = 'update';
+      Object.keys(this.form.controls).forEach((key) => {
+        this.form.controls[key].setValue(this.defaults[key]);
+      });
     } else {
       this.defaults = {} as Holiday;
     }
@@ -57,12 +65,10 @@ export class HolidayFormComponent implements OnInit {
   createCustomer() {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      const data = { ...this.form.value, date: moment(this.form.value.date).format(environment.standardDate) }
-      console.log(data)
+      const data = { ...this.form.value, date: commonFunctions.getStandardDate(this.form.value.date) }
       this.holidaysService.createHoliday(data).subscribe((result: any) => {
         if (result != null) {
           this.dialogRef.close(result);
-          console.log(result)
         }
       },
         (error) => {
@@ -74,12 +80,19 @@ export class HolidayFormComponent implements OnInit {
 
   updateCustomer() {
     this.form.markAllAsTouched();
-    if (this.form.valid) { }
-
-    const customer = this.form.value;
-    customer.id = this.defaults.id;
-
-    //this.dialogRef.close(customer);
+    if (this.form.valid) {
+      const item = { ...this.form.value, date: commonFunctions.getStandardDate(this.form.value.date) }
+      item.id = this.defaults.id;
+      this.holidaysService.updateHoliday(item.id, item).subscribe((result: any) => {
+        if (result != null) {
+          this.dialogRef.close({ ...item, ...result });
+        }
+      },
+        (error) => {
+          this.server_validation_messages = error;
+          this.form.markAllAsTouched();
+        });
+    }
   }
 
   isCreateMode() {

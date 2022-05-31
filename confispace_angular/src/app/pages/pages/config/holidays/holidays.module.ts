@@ -21,6 +21,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatDialogModule,
     MatDividerModule,
     MatInputModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    ComponentsModule
   ]
 })
 export class HolidaysModule { }

@@ -12,7 +12,12 @@ export class HeadersInterceptorService {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.headers.get("skipHeaders")) return next.handle(req);
+
+    if (req.headers.get("skipHeaders")) {
+      req = req.clone({ headers: req.headers.delete('skipHeaders') });
+      return next.handle(req);
+    }
+
     let headers = req.clone({
       setHeaders: {
         "Content-Type": "application/json",

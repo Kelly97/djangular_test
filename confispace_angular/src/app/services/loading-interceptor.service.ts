@@ -19,7 +19,12 @@ export class LoadingInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.headers.get("skipLoading")) return next.handle(req);
+
+    if (req.headers.get("skipLoading")) {
+      req = req.clone({ headers: req.headers.delete('skipLoading') });
+      return next.handle(req);
+    }
+
     this.loadingService.start();
     return next.handle(req).pipe(
       finalize(() => {

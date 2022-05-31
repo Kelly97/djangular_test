@@ -7,13 +7,15 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { VexModule } from "../@vex/vex.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CustomLayoutModule } from "./custom-layout/custom-layout.module";
-import { TokenInterceptorService } from "./services/token-interceptor.service";
-import { HttpErrorInterceptorService } from "./services/http-error-interceptor.service";
+
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ComponentsModule } from "./components/components.module";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+
+import { TokenInterceptorService } from "./services/token-interceptor.service";
 import { LoadingInterceptorService } from "./services/loading-interceptor.service";
 import { HeadersInterceptorService } from "./services/headers-interceptor.service";
-import { MatDatepickerModule } from "@angular/material/datepicker";
+import { NotifierInterceptorService } from "./services/notifier-interceptor.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,7 +43,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptorService,
+      useClass: NotifierInterceptorService,
       multi: true,
     },
     {

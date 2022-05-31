@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -12,7 +12,11 @@ export class AuthService {
   uri_api: string = environment.uri_api + 'sec/';
 
   loginService(data: any) {
-    return this.http.post(this.uri_api + 'login/', data);
+    return this.http.post(this.uri_api + 'login/', data, {
+      headers: new HttpHeaders({
+        'skipNotifier': 'true',
+      })
+    });
   }
 
   regiterService(data: any) {

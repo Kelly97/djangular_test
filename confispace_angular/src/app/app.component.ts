@@ -19,12 +19,13 @@ import localeEsHn from '@angular/common/locales/es-HN';
 import { registerLocaleData } from "@angular/common";
 registerLocaleData(localeEsHn);
 
+
 @Component({
   selector: 'vex-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [
-    { provide: LOCALE_ID, useValue: 'es-Hn' }
+    { provide: LOCALE_ID, useValue: 'es-Hn' },
   ],
 })
 export class AppComponent {
