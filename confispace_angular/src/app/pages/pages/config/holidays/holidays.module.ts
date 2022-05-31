@@ -16,11 +16,17 @@ import { IconModule } from '@visurel/iconify-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
+import { HolidayFormComponent } from './holiday-form/holiday-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
   declarations: [
-    HolidaysComponent
+    HolidaysComponent,
+    HolidayFormComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +44,11 @@ import { ContainerModule } from 'src/@vex/directives/container/container.module'
     FormsModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    ContainerModule
+    ContainerModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatInputModule,
+    MatDatepickerModule
   ]
 })
 export class HolidaysModule { }

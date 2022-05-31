@@ -10,6 +10,10 @@ import icAdd from '@iconify/icons-ic/twotone-add';
 import icClear from '@iconify/icons-ic/clear';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
+import icCheck from '@iconify/icons-ic/round-check-circle-outline';
+import icMinus from '@iconify/icons-ic/outline-do-not-disturb-on';
+
+
 import { FormControl } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,6 +22,8 @@ import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { TableColumn } from 'src/@vex/interfaces/table-column.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { HolidayFormComponent } from './holiday-form/holiday-form.component';
 
 @UntilDestroy()
 @Component({
@@ -49,16 +55,18 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
   icFilterList = icFilterList;
   icClear = icClear;
   icMoreHoriz = icMoreHoriz;
+  icCheck = icCheck;
+  icMinus = icMinus;
 
   columns: TableColumn<Holiday>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Fecha Festiva', property: 'date', type: 'text', visible: true },
-    { label: 'Descripción', property: 'description', type: 'text', visible: true,  cssClasses: ['text-secondary', 'font-medium']  },
+    { label: 'Descripción', property: 'description', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Estatus', property: 'is_active', type: 'badge', visible: true },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
 
-  constructor(public holidaysService: HolidaysService) { }
+  constructor(public holidaysService: HolidaysService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
@@ -120,12 +128,13 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
   }
 
   createItem() {
-    /* this.dialog.open(CustomerCreateUpdateComponent).afterClosed().subscribe((customer: Customer) => {
-      if (customer) {
-        this.customers.unshift(new Customer(customer));
-        this.subject$.next(this.customers);
+    this.dialog.open(HolidayFormComponent, { minWidth: 400 }).afterClosed().subscribe((holiday: Holiday) => {
+      console.log(holiday)
+      if (holiday) {
+        this.holidays.unshift(holiday);
+        //this.subject$.next(this.customers);
       }
-    }); */
+    });
   }
 
   isAllSelected() {

@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   appName: "ConfiSpace",
   uri_api: 'http://localhost:8000/api/',
+  standardDate: 'YYYY-MM-DD'
 };
 
 /*

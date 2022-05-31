@@ -1,0 +1,84 @@
+<form (ngSubmit)="save()" [formGroup]="form">
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <h2
+      *ngIf="form.get('description').value"
+      class="headline m-0"
+      fxFlex="auto"
+    >
+      {{ form.get("description").value }}
+    </h2>
+    <h2
+      *ngIf="!form.get('description').value"
+      class="headline m-0"
+      fxFlex="auto"
+    >
+      Nuevo día festivo
+    </h2>
+
+    <button
+      class="text-secondary"
+      mat-dialog-close
+      mat-icon-button
+      type="button"
+    >
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column" class="mt-3">
+    <mat-error
+      *ngFor="let message of server_validation_messages['date']"
+      class="px-2 text-xs mb-1"
+    >
+      <span>{{ message }}</span>
+    </mat-error>
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha Festiva</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngFor="let validation of client_validation_messages['date']">
+        <span *ngIf="form.get('date').hasError(validation.type)">{{
+          validation.message
+        }}</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-error
+      *ngFor="let message of server_validation_messages['description']"
+      class="px-2 text-xs mb-1"
+    >
+      <span>{{ message }}</span>
+    </mat-error>
+    <mat-form-field class="flex-auto">
+      <mat-label>Descripción</mat-label>
+      <textarea formControlName="description" matInput></textarea>
+      <mat-error
+        *ngFor="let validation of client_validation_messages['description']"
+      >
+        <span *ngIf="form.get('description').hasError(validation.type)">{{
+          validation.message
+        }}</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-checkbox
+      color="primary"
+      [checked]="true"
+      class="flex-auto"
+      formControlName="is_active"
+      >Día Festivo habilitado
+    </mat-checkbox>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">
+      Crear
+    </button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">
+      Aplicar cambios
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -130,7 +130,6 @@ export class RegisterComponent implements OnInit {
         (error) => {
           this.server_validation_messages = error;
           this.form.markAllAsTouched();
-          console.log(error.status);
         }
       );
     }

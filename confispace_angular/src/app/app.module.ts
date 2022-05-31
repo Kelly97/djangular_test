@@ -13,6 +13,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ComponentsModule } from "./components/components.module";
 import { LoadingInterceptorService } from "./services/loading-interceptor.service";
 import { HeadersInterceptorService } from "./services/headers-interceptor.service";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { HeadersInterceptorService } from "./services/headers-interceptor.servic
     CustomLayoutModule,
     MatSnackBarModule,
     ComponentsModule,
+    MatDatepickerModule
   ],
   providers: [
     {
@@ -46,7 +48,7 @@ import { HeadersInterceptorService } from "./services/headers-interceptor.servic
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptorService,
       multi: true,
-    },
+    }
   ],
   bootstrap: [AppComponent],
 })
