@@ -8,6 +8,8 @@ import {
 export class CustomValidators {
     constructor() { }
 
+    static passwordRegex:string = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$";
+
     static onlyChar(): ValidatorFn {
         return (control: AbstractControl): { [key: string]: boolean } | null => {
             if (control.value == '') return null;

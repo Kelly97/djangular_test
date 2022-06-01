@@ -1,16 +1,13 @@
 import { Injectable } from "@angular/core";
 import {
-  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
 } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { StorageService } from "./storage.service";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 import { NotifyService } from "../components/services/notify.service";
 import { notifierType } from "../components/notifier/notifier.component";
 
@@ -19,8 +16,6 @@ import { notifierType } from "../components/notifier/notifier.component";
 })
 export class NotifierInterceptorService implements HttpInterceptor {
   constructor(
-    private router: Router,
-    private storage: StorageService,
     private notifyService: NotifyService
   ) { }
 
@@ -40,47 +35,8 @@ export class NotifierInterceptorService implements HttpInterceptor {
           const notification = this.setMessage(req, resp);
           notification.msg && this.notifyService.show(notification);
         }
-      }),
-      catchError((error: HttpErrorResponse) => {
-        switch (error?.status) {
-          case 401:
-            this.storage.logOut();
-            break;
-          case 403:
-            this.router.navigate(["/error-403"]);
-            break;
-          case 500:
-            this.router.navigate(["/error-500"]);
-            break;
-          default:
-            break;
-        }
-        this.notifyService.show({ msg: this.setError(error), type: 'error' });
-        return throwError(error.error);
       })
     );
-  }
-
-  setError(error: HttpErrorResponse): string {
-    let errorMsg = "Ocurrió un error.";
-    if (error.error instanceof ErrorEvent) {
-      //client error
-      errorMsg = error.error.message;
-    } else {
-      //server error
-      errorMsg = error.error.detail || error.error.non_field_errors;
-      if (!errorMsg) {
-        switch (error.status) {
-          case 400:
-            errorMsg = "No fue posible ejecutar el proceso."
-            break;
-          default:
-            errorMsg = "Lo sentimos. Ocurrió un error."
-            break;
-        }
-      }
-    }
-    return errorMsg;
   }
 
   setMessage(req: HttpRequest<any>, resp: HttpResponse<any>): notifierType {

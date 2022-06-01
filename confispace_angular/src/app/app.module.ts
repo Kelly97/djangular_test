@@ -11,11 +11,13 @@ import { CustomLayoutModule } from "./custom-layout/custom-layout.module";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ComponentsModule } from "./components/components.module";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { HeadersInterceptorService } from "./interceptors/headers-interceptor.service";
+import { NotifierInterceptorService } from "./interceptors/notifier-interceptor.service";
+import { LoadingInterceptorService } from "./interceptors/loading-interceptor.service";
+import { TokenInterceptorService } from "./interceptors/token-interceptor.service";
+import { ErrorNotifierInterceptorService } from "./interceptors/error-notifier-interceptor.service";
 
-import { TokenInterceptorService } from "./services/token-interceptor.service";
-import { LoadingInterceptorService } from "./services/loading-interceptor.service";
-import { HeadersInterceptorService } from "./services/headers-interceptor.service";
-import { NotifierInterceptorService } from "./services/notifier-interceptor.service";
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,6 +46,11 @@ import { NotifierInterceptorService } from "./services/notifier-interceptor.serv
     {
       provide: HTTP_INTERCEPTORS,
       useClass: NotifierInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorNotifierInterceptorService,
       multi: true,
     },
     {

@@ -47,14 +47,14 @@ export class AboutComponent implements OnInit {
   }
 
   changePassword(): void {
-    const dialogRef = this.dialog.open(ChangePasswordComponent, {
-      minWidth: '250px'
+    this.dialog.open(ChangePasswordComponent, {
+      minWidth: 340
     });
   }
 
   updateUser(): void {
     const dialogRef = this.dialog.open(UserFormComponent, {
-      minWidth: '250px',
+      minWidth: 340,
       data: this.profile
     });
 

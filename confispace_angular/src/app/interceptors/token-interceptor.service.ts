@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { StorageService } from "./storage.service";
+import { StorageService } from 'src/app/services/storage.service';
 
 @Injectable({
   providedIn: "root",

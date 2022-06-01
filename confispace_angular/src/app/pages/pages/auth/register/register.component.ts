@@ -49,10 +49,8 @@ export class RegisterComponent implements OnInit {
       ]),
       password: new FormControl("", [
         Validators.required,
-        Validators.minLength(6),
-        Validators.pattern(
-          "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$"
-        ),
+        Validators.minLength(8),
+        Validators.pattern(CustomValidators.passwordRegex),
       ]),
       passwordConfirm: new FormControl("", Validators.required),
     },
@@ -87,7 +85,7 @@ export class RegisterComponent implements OnInit {
       { type: "required", message: "El campo es requerido." },
       {
         type: "minlength",
-        message: "Se deben ingresar al menos 6 caracteres.",
+        message: "Se deben ingresar al menos 8 caracteres.",
       },
       {
         type: "pattern",

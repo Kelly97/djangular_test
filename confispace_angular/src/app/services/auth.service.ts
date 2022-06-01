@@ -27,4 +27,8 @@ export class AuthService {
     return this.http.get(this.uri_api + 'profile/');
   }
 
+  changePassword(data: any) {
+    return this.http.put(this.uri_api + 'change_password/', data);
+  }
+
 }

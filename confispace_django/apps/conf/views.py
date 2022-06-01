@@ -54,7 +54,7 @@ class HolidaysListView(ListAPIView):
 
 class HolidaysListCreateView(BaseViewSet, ListCreateAPIView):
     permission_classes = [permissions.IsAdminUser]
-    queryset = Holiday.objects.all()
+    queryset = Holiday.objects.all().order_by('-date')
     serializer_class = HolidaySerializer
 
 
