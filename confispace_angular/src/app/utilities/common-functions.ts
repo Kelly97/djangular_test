@@ -9,6 +9,14 @@ export class commonFunctions {
         return moment(date).format(environment.standardDate)
     }
 
+    static currentDay(){
+        return moment().format(environment.standardDate)
+    }
+
+    static currentTime(){
+        return moment().format('h:mm:ss')
+    }
+
     static filterItems(value: string, items: any[], keys: string[]) {
         const filterValue = value.toLowerCase();
         return items.filter(item => {

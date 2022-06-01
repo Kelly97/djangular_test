@@ -7,30 +7,47 @@
     <mat-icon [icIcon]="icon"></mat-icon>
   </div> -->
 
-  <h2 class="text-2xl font-semibold mt-3">Junio 2022</h2>
+  <h2 class="text-2xl font-semibold mt-3">
+    {{ moment().locale("es").format("MMMM y") | titlecase }}
+  </h2>
   <h3 class="text-sm font-medium text-secondary m-0">
-    01/06/2022 - 07/06/2022
+    {{ moment().locale("es").format("ddd DD") }} -
+    {{ moment().add(6, "days").locale("es").format("ddd DD") }}
   </h3>
-  <div class="flex w-full mt-5 ">
-    <div class="m-2">
+  <div class="flex w-full mt-5" *ngFor="let bookings of bookingsByDate">
+    <div class="mt-4">
       <div
-        class="rounded-full w-12 h-12 flex items-center justify-center bg-primary text-white"
+        class="rounded-full w-12 h-12 flex items-center justify-center"
+        [ngClass]="{'bg-primary text-white': moment(bookings.date).isSame(moment(), 'day')}"
       >
         <div class="text-center">
-          <p class="text-xs">Lun</p>
-          <p class="font-semibold">6</p>
+          <p class="text-xs leading-none">
+            {{ moment(bookings.date).locale("es").format("ddd") | titlecase }}
+          </p>
+          <p class="font-semibold leading-none">
+            {{ moment(bookings.date).locale("es").format("DD") }}
+          </p>
         </div>
       </div>
     </div>
     <div class="w-full">
-      <div class="bg-purple text-white rounded-lg m-1 p-2">
-        <p>ZonaFit</p>
-        <p>2:30 - 3:30 p.m</p>
+      <div
+        class="bg-gray-light rounded-lg m-3 p-2"
+        [ngClass]="{
+          'bg-accent text-white': moment().isBetween(
+            bookings.date + ' ' + book.start_time,
+            bookings.date + ' ' + book.end_time
+          )
+        }"
+        *ngFor="let book of bookings.bookings"
+      >
+        <p class="text-lg">{{ book.space | titlecase }}</p>
+        <p>
+          {{ bookings.date + " " + book.start_time | date: "hh:mm a" }} -
+          {{ bookings.date + " " + book.end_time | date: "hh:mm a" }}
+        </p>
       </div>
-      <div class="bg-gray-light rounded-lg m-1 p-2">
-        <p>ZonaFit</p>
-        <p>2:30 - 3:30 p.m</p>
-      </div>
+      <!-- bg-purple text-white -->
     </div>
   </div>
 </div>
