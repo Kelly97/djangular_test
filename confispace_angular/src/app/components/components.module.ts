@@ -20,9 +20,10 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { BookingsWidgetComponent } from './bookings-widget/bookings-widget.component';
 
 @NgModule({
-  declarations: [LoadingComponent, NotifierComponent, DataTableComponent],
+  declarations: [LoadingComponent, NotifierComponent, DataTableComponent, BookingsWidgetComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -42,6 +43,6 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
     MatDividerModule,
     MatInputModule,
     MatDatepickerModule],
-  exports: [LoadingComponent, NotifierComponent, DataTableComponent],
+  exports: [LoadingComponent, NotifierComponent, DataTableComponent, BookingsWidgetComponent],
 })
 export class ComponentsModule { }
