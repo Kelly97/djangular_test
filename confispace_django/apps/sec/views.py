@@ -8,7 +8,7 @@ from knox.models import AuthToken
 from django.contrib.auth import login
 from knox.views import LoginView as KnoxLoginView
 from apps.sec.models import User
-from apps.sec.serializers import ChangePasswordSerializer, RegisterSerializer, UserSerializer
+from apps.sec.serializers import ChangePasswordSerializer, RegisterSerializer, UpdateProfileSerializer, UserProfileSerializer, UserSerializer
 
 
 class RegisterAPI(APIView):
@@ -31,8 +31,7 @@ class LoginAPI(KnoxLoginView):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        d = login(request, user)
-        # return super(LoginAPI, self).post(request, format=None)
+        login(request, user)
         return Response({
             'user': {
                 "first_name": user.first_name,
@@ -45,7 +44,7 @@ class LoginAPI(KnoxLoginView):
 
 
 class UserProfile(RetrieveAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserProfileSerializer
 
     def get_object(self):
         if self.request.user.is_authenticated:
@@ -66,3 +65,16 @@ class ChangePasswordView(UpdateAPIView):
             'data': []
         }
         return Response(response)
+
+class UpdateProfileView(UpdateAPIView):
+    serializer_class = UpdateProfileSerializer
+
+    def get_object(self):
+        if self.request.user.is_authenticated:
+            return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)

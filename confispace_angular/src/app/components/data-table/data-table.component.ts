@@ -107,7 +107,9 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
   updateItem(item: any) {
     this.dialog.open(this.dialogComponent, {
-      data: item, minWidth: 400
+      data: item,
+      panelClass: ['m-3', 'w-full', 'max-w-lg'],
+      maxWidth: "auto",
     }).afterClosed().subscribe(updateItem => {
       if (updateItem) {
         const index = this.tableItems.findIndex((existingCustomer) => existingCustomer.id === updateItem.id);
@@ -131,7 +133,10 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   }
 
   createItem() {
-    this.dialog.open(this.dialogComponent, { minWidth: 400 }).afterClosed().subscribe((item: any) => {
+    this.dialog.open(this.dialogComponent, {
+      panelClass: ['m-3', 'w-full', 'max-w-lg'],
+      maxWidth: "auto",
+    }).afterClosed().subscribe((item: any) => {
       if (item) {
         this.tableItems.unshift(item);
         this.subject$.next(this.tableItems);

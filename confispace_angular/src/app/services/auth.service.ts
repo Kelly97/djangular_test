@@ -31,4 +31,8 @@ export class AuthService {
     return this.http.put(this.uri_api + 'change_password/', data);
   }
 
+  updateProfile(data: any) {
+    return this.http.put(this.uri_api + 'update_profile/', data);
+  }
+
 }

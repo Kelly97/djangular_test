@@ -29,6 +29,11 @@ class RegisterSerializer(serializers.ModelSerializer):
             )
         return user
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["last_login", "username",	"first_name", "last_name", "email", "date_joined"]
+
 class ChangePasswordSerializer(serializers.ModelSerializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True,validators=[validate_password])
@@ -54,3 +59,23 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         user.save()
         return user
         
+
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True)
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name']
+
+    def validate_email(self, value):
+        user = self.context['request'].user
+        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
+            raise serializers.ValidationError( _('This email is already in use.'))
+        return value
+
+    def save(self, **kwargs):
+        user = self.context['request'].user
+        user.email = self.validated_data['email']
+        user.first_name = self.validated_data['first_name']
+        user.last_name = self.validated_data['last_name']
+        user.save()
+        return user

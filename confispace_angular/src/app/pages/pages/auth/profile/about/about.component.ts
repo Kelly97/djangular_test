@@ -48,18 +48,19 @@ export class AboutComponent implements OnInit {
 
   changePassword(): void {
     this.dialog.open(ChangePasswordComponent, {
-      minWidth: 340
+      panelClass: ['m-3', 'w-full', 'max-w-md'],
+      maxWidth: "auto"
     });
   }
 
   updateUser(): void {
     const dialogRef = this.dialog.open(UserFormComponent, {
-      minWidth: 340,
+      panelClass: ['m-3', 'w-full', 'max-w-lg'],
+      maxWidth: "auto",
       data: this.profile
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       this.profile = { ...this.profile, ...result };
     });
   }

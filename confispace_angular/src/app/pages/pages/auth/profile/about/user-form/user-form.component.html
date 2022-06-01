@@ -1,1 +1,54 @@
-<p>user-form works!</p>
+<form (ngSubmit)="save()" [formGroup]="form">
+    <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+        <h2 class="headline m-0" fxFlex="auto">Editar información</h2>
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+            <mat-icon [icIcon]="icClose"></mat-icon>
+        </button>
+    </div>
+
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+
+    <mat-dialog-content fxLayout="column" class="mt-3" fxLayout.gt-sm="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 py-2 w-full" fxFlexAlign="end">
+            <mat-error *ngFor="let message of server_validation_messages['first_name']" class="px-2 text-xs mb-1">
+                <span>{{message}}</span>
+            </mat-error>
+            <mat-form-field class="w-full">
+                <mat-label>Nombres</mat-label>
+                <input formControlName="first_name" matInput required maxlength="150" />
+                <mat-error *ngFor="let validation of client_validation_messages['first_name']">
+                    <span *ngIf="form.get('first_name').hasError(validation.type)">{{validation.message}}</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 py-2 w-full" fxFlexAlign="end">
+            <mat-error *ngFor="let message of server_validation_messages['last_name']" class="px-2 text-xs mb-1">
+                <span>{{message}}</span>
+            </mat-error>
+            <mat-form-field class="w-full">
+                <mat-label>Apellidos</mat-label>
+                <input formControlName="last_name" matInput required maxlength="150" />
+                <mat-error *ngFor="let validation of client_validation_messages['last_name']">
+                    <span *ngIf="form.get('last_name').hasError(validation.type)">{{validation.message}}</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-error *ngFor="let message of server_validation_messages['email']" class="px-2 text-xs mb-1">
+            <span>{{message}}</span>
+        </mat-error>
+        <mat-form-field fxFlex="100" class="p-1">
+            <mat-label>Correo</mat-label>
+            <input formControlName="email" matInput required maxlength="254" />
+            <mat-error *ngFor="let validation of client_validation_messages['email']">
+                <span *ngIf="form.get('email').hasError(validation.type)">{{validation.message}}</span>
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close type="button">Cancelar</button>
+        <button color="primary" mat-button type="submit">Guardar cambios</button>
+    </mat-dialog-actions>
+</form>

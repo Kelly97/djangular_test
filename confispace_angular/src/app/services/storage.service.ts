@@ -36,6 +36,10 @@ export class StorageService {
     return this.getItem('token');
   }
 
+  removeToken() {
+    localStorage.removeItem('token');
+  }
+
   setUser(data: any) {
     this.saveObject('user', data);
   }
@@ -44,13 +48,19 @@ export class StorageService {
     return this.getObject('user');
   }
 
+  updateUser(data: any) {
+    let user = { ...this.getUser(), ...data };
+    this.setUser(user);
+  }
+
   isAuthenticated() {
     return this.getToken() ? true : false;
   }
 
-  logOut(){
-    this.clearStorage();
+  logOut() {
+    this.removeToken();
     this.router.navigate(['/login']);
+    this.clearStorage();
   }
 
 }

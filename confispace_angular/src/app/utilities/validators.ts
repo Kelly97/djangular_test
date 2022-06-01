@@ -9,6 +9,7 @@ export class CustomValidators {
     constructor() { }
 
     static passwordRegex:string = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$";
+    static mailRegex:string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
 
     static onlyChar(): ValidatorFn {
         return (control: AbstractControl): { [key: string]: boolean } | null => {

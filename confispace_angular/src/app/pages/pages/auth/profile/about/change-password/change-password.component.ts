@@ -37,12 +37,12 @@ export class ChangePasswordComponent implements OnInit {
       { type: "required", message: "El campo es requerido." },
       {
         type: "minlength",
-        message: "Se deben ingresar al menos 8 caracteres.",
+        message: "La longitud mínima es 8 caracteres.",
       },
       {
         type: "pattern",
         message:
-          "La contraseña debe contener al menos una mayúscula, una minúscula, un número y un caracter especial !@#$%^&*",
+          "Formato no válido.",
       },
     ],
     new_password_confirm: [
