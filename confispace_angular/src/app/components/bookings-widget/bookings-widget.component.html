@@ -1,53 +1,111 @@
 <div
-  class="card p-6 relative hover:shadow-16 trans-shadow"
+  class="card p-6 relative hover:shadow-16 trans-shadow w-full h-full max-h-screen"
   fxLayout="column"
-  fxLayoutAlign="start center"
+  @transformPopover
 >
-  <!-- <div [ngClass]="iconClass" class="rounded-full w-12 h-12 flex items-center justify-center">
-    <mat-icon [icIcon]="icon"></mat-icon>
-  </div> -->
+  <div fxLayout="row" fxLayoutAlign="space-between start" class="mb-6">
+    <div fxLayout="column">
+      <h2 class="text-2xl font-semibold">Mis Reservas</h2>
+      <h3 class="text-sm font-medium text-secondary m-0">
+        {{ moment().locale("es").format("MMM DD, y") | titlecase }} -
+        {{
+          moment().add(6, "days").locale("es").format("MMM DD, y") | titlecase
+        }}
+      </h3>
+    </div>
 
-  <h2 class="text-2xl font-semibold mt-3">
-    {{ moment().locale("es").format("MMMM y") | titlecase }}
-  </h2>
-  <h3 class="text-sm font-medium text-secondary m-0">
-    {{ moment().locale("es").format("ddd DD") }} -
-    {{ moment().add(6, "days").locale("es").format("ddd DD") }}
-  </h3>
-  <div class="flex w-full mt-5" *ngFor="let bookings of bookingsByDate">
-    <div class="mt-4">
-      <div
-        class="rounded-full w-12 h-12 flex items-center justify-center"
-        [ngClass]="{'bg-primary text-white': moment(bookings.date).isSame(moment(), 'day')}"
-      >
-        <div class="text-center">
-          <p class="text-xs leading-none">
-            {{ moment(bookings.date).locale("es").format("ddd") | titlecase }}
-          </p>
-          <p class="font-semibold leading-none">
-            {{ moment(bookings.date).locale("es").format("DD") }}
+    <button
+      [matMenuTriggerFor]="columnFilterMenu"
+      class="ml-auto"
+      fxFlex="none"
+      mat-icon-button
+      matTooltip="Filtrar Espacios"
+      type="button"
+    >
+      <mat-icon [icIcon]="icFilterList"></mat-icon>
+    </button>
+  </div>
+
+  <vex-scrollbar *ngIf="bookingsByDate.length > 0; else noBookings">
+    <div
+      class="flex w-full"
+      *ngFor="let bookings of bookingsByDate"
+      @fadeInRight
+    >
+      <div>
+        <div
+          class="rounded-full w-12 h-12 flex items-center justify-center"
+          [ngClass]="{
+            'bg-primary text-white': moment(bookings.date).isSame(
+              moment(),
+              'day'
+            )
+          }"
+        >
+          <div class="text-center">
+            <p class="text-xs leading-none">
+              {{ moment(bookings.date).locale("es").format("ddd") | titlecase }}
+            </p>
+            <p class="font-semibold leading-none">
+              {{ moment(bookings.date).locale("es").format("DD") }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="w-full mx-2">
+        <div
+          class="bg-gray-light rounded-sm mb-3 p-2"
+          [ngClass]="{
+            'bg-primary text-white': moment().isBetween(
+              bookings.date + ' ' + book.start_time,
+              bookings.date + ' ' + book.end_time
+            )
+          }"
+          *ngFor="let book of bookings.bookings"
+        >
+          <p class="text-lg">{{ book.space | titlecase }}</p>
+          <p *ngIf="book.start_time && book.end_time">
+            {{ moment(book.start_time, "HH:mm:ss").format("hh:mm") }} -
+            {{ moment(book.end_time, "HH:mm:ss").format("hh:mm a")}}
           </p>
         </div>
       </div>
     </div>
-    <div class="w-full">
-      <div
-        class="bg-gray-light rounded-lg m-3 p-2"
-        [ngClass]="{
-          'bg-accent text-white': moment().isBetween(
-            bookings.date + ' ' + book.start_time,
-            bookings.date + ' ' + book.end_time
-          )
-        }"
-        *ngFor="let book of bookings.bookings"
-      >
-        <p class="text-lg">{{ book.space | titlecase }}</p>
-        <p>
-          {{ bookings.date + " " + book.start_time | date: "hh:mm a" }} -
-          {{ bookings.date + " " + book.end_time | date: "hh:mm a" }}
-        </p>
-      </div>
-      <!-- bg-purple text-white -->
-    </div>
+  </vex-scrollbar>
+
+  <ng-template #noBookings>
+     <div class="text-center w-full bg-gray-light rounded-sm p-4">
+        <p>Sin reservas pendientes</p>
+     </div>
+  </ng-template>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="py-5 mt-auto">
+    <button
+      class="ml-4"
+      color="primary"
+      fxFlex="none"
+      mat-mini-fab
+      matTooltip="Add Customer"
+      type="button"
+      (click)="createReserve()"
+    >
+      <mat-icon [icIcon]="icAdd"></mat-icon>
+    </button>
   </div>
 </div>
+
+<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+  <!-- <button
+    (click)="toggleColumnVisibility(column, $event)"
+    *ngFor="let column of columns"
+    class="checkbox-item mat-menu-item"
+  >
+    <mat-checkbox
+      (click)="$event.stopPropagation()"
+      [(ngModel)]="column.visible"
+      color="primary"
+    >
+      {{ column.label }}
+    </mat-checkbox>
+  </button> -->
+</mat-menu>

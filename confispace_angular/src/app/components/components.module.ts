@@ -21,6 +21,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { BookingsWidgetComponent } from './bookings-widget/bookings-widget.component';
+import { ScrollbarModule } from "src/@vex/components/scrollbar/scrollbar.module";
 
 @NgModule({
   declarations: [LoadingComponent, NotifierComponent, DataTableComponent, BookingsWidgetComponent],
@@ -42,7 +43,8 @@ import { BookingsWidgetComponent } from './bookings-widget/bookings-widget.compo
     MatDialogModule,
     MatDividerModule,
     MatInputModule,
-    MatDatepickerModule],
+    MatDatepickerModule,
+    ScrollbarModule],
   exports: [LoadingComponent, NotifierComponent, DataTableComponent, BookingsWidgetComponent],
 })
 export class ComponentsModule { }

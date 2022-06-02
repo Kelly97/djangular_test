@@ -1,0 +1,50 @@
+.checkbox {
+  width: auto;
+  height: 40px;
+  position: relative;
+  margin: 0.5em 0;
+}
+.checkbox input {
+  position: absolute;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.box {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  border: 2px solid #d1d1d1;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.box i {
+  margin-right: 0.3em;
+}
+.checkbox input:checked ~ .box {
+  background: rgb(var(--color-primary), 0.1);
+  border: 2px solid rgb(var(--color-primary));
+  color: rgb(var(--color-primary));
+}
+
+/* ::ng-deep .mat-form-field-infix {
+  border: 0px !important;
+  font-size: larger;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+  transform: translateY(0%) !important;
+} */
+
+::ng-deep .mat-menu-content {
+  width: 250px !important;
+  max-height: 200px !important;
+}

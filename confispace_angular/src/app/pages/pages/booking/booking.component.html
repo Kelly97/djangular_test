@@ -1,0 +1,101 @@
+<vex-page-layout>
+  <vex-page-layout-header
+    class="pb-16"
+    fxLayout="column"
+    fxLayoutAlign="center start"
+  >
+    <div class="w-full flex flex-col sm:flex-row justify-between">
+      <div>
+        <h2 class="m-0">Reservar Espacio</h2>
+      </div>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content class="-mt-6">
+    <form
+      [formGroup]="form"
+      class="card -mt-16"
+      fxLayout="column"
+      fxLayout.gt-sm="row wrap"
+    >
+      <div
+        class="p-6 bg-gray-light"
+        fxFlex="100"
+        fxFlex.gt-sm="25"
+        fxFlex.gt-lg="20"
+      >
+        <button mat-button color="accent" [matMenuTriggerFor]="spacesMenu">
+          <h1>{{ currentSpace.name }}</h1>
+        </button>
+        <mat-menu #spacesMenu="matMenu">
+          <button
+            mat-menu-item
+            *ngFor="let space of spaces"
+            (click)="changeSpace(space.id)"
+          >
+            {{ space.name }}
+          </button>
+        </mat-menu>
+        <h6 class="ml-4 text-secondary">Seleccione el espacio deseado</h6>
+      </div>
+
+      <div class="p-6" fxFlex="100" fxFlex.gt-sm="40" fxFlex.gt-lg="40">
+        <div fxLayout="row" class="text-right">
+          <div></div>
+          <div class="ml-auto">
+            <h1>{{ moment(form.value.date).locale("es").format("DD") }}</h1>
+            <h6>{{ moment(form.value.date).locale("es").format("dddd") }}</h6>
+          </div>
+        </div>
+        <mat-calendar
+          [(selected)]="form.value.date"
+          [dateFilter]="dateFilter"
+          class="w-full"
+        ></mat-calendar>
+      </div>
+
+      <div
+        class="p-6 flex flex-col justify-between"
+        fxFlex="100"
+        fxFlex.gt-sm="35"
+        fxFlex.gt-lg="40"
+      >
+        <div *ngIf="currentSpace?.schedules?.length > 0; else noSchedules">
+          <div
+            class="checkbox w-full"
+            *ngFor="let item of currentSpace.schedules"
+          >
+            <input
+              type="checkBox"
+              name="schedules"
+              [value]="item.start_time"
+              [id]=""
+              [disabled]="currentSpace.max_spots == item.count"
+              (change)="toogleSchedule($event)"
+            />
+            <div
+              class="box"
+              [ngClass]="{ 'text-gray': currentSpace.max_spots == item.count }"
+            >
+              <p data-text="06:00 a.m.">
+                {{ commonFunctions.getTime(item.start_time, "hh:mm") }} -
+                {{ commonFunctions.getTime(item.end_time, "hh:mm a") }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <ng-template #noSchedules>
+          <div class="text-center w-full bg-gray-light rounded-sm p-4">
+            <p>Sin horarios disponibles</p>
+          </div>
+        </ng-template>
+
+        <div>
+          <button mat-flat-button color="primary" class="w-full">
+            Reservar
+          </button>
+        </div>
+      </div>
+    </form>
+  </vex-page-layout-content>
+</vex-page-layout>

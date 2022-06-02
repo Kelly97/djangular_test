@@ -24,6 +24,10 @@ const routes: Routes = [
         path: 'config',
         loadChildren: () => import('./pages/pages/config/config.module').then(m => m.ConfigModule),
       },
+      {
+        path: 'booking',
+        loadChildren: () => import('./pages/pages/booking/booking.module').then(m => m.BookingModule),
+      },
     ],
     canActivateChild: [AuthGuard]
   },

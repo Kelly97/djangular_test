@@ -9,6 +9,10 @@ export class commonFunctions {
         return moment(date).format(environment.standardDate)
     }
 
+    static getTime(time: string, format:string = "hh:mm"){
+        return moment(time, "HH:mm:ss").format(format);
+    }
+
     static currentDay(){
         return moment().format(environment.standardDate)
     }
