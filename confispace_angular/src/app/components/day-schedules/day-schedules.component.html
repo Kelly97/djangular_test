@@ -1,0 +1,54 @@
+<div
+  fxLayout="row"
+  fxLayoutGap="10px"
+  class="border-b p-6 custom-schedules-component"
+>
+  <div style="width: 300px" class="py-3">
+    <mat-checkbox>Miércoles</mat-checkbox>
+  </div>
+  <div fxLayout="column">
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+      <mat-form-field class="w-32">
+        <input matInput />
+      </mat-form-field>
+      <mat-icon [icIcon]="icHypen"></mat-icon>
+      <mat-form-field class="w-32">
+        <input matInput />
+      </mat-form-field>
+      <button mat-icon-button aria-label="Eliminar" matTooltip="Eliminar">
+        <mat-icon [icIcon]="icDelete"></mat-icon>
+      </button>
+      <button mat-icon-button aria-label="Agregar" matTooltip="Grupos">
+        <mat-icon [icIcon]="icPeople"></mat-icon>
+      </button>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end start" class="w-full">
+    <button mat-icon-button aria-label="Agregar" matTooltip="Agregar">
+      <mat-icon [icIcon]="icAdd"></mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      aria-label="Copiar"
+      matTooltip="Copiar"
+      [matMenuTriggerFor]="copyMenu"
+    >
+      <mat-icon [icIcon]="icCopy"></mat-icon>
+    </button>
+    <mat-menu #copyMenu="matMenu" xPosition="before" yPosition="below">
+      <button
+        *ngFor="let day of commonFunctions.weekDays"
+        class="checkbox-item mat-menu-item"
+      >
+        <mat-checkbox (click)="$event.stopPropagation()" color="primary">
+          {{ day.label }}
+        </mat-checkbox>
+      </button>
+      <div class="px-2">
+        <button color="primary" mat-raised-button type="button" class="w-full">
+          Aplicar
+        </button>
+      </div>
+    </mat-menu>
+  </div>
+</div>

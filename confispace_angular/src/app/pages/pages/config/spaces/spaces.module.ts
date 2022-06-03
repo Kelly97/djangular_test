@@ -7,19 +7,25 @@ import { ConfigModule } from '../config.module';
 import { SpaceFormComponent } from './space-form/space-form.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TruncateModule } from 'src/app/pipes/truncate/truncate.module';
+import { SpaceDetailsComponent } from './space-details/space-details.component';
+import { SpaceSchedulesComponent } from './space-schedules/space-schedules.component';
+import { DaySchedulesModule } from 'src/app/components/day-schedules/day-schedules.module';
 
 
 @NgModule({
   declarations: [
     SpacesComponent,
-    SpaceFormComponent
+    SpaceFormComponent,
+    SpaceDetailsComponent,
+    SpaceSchedulesComponent
   ],
   imports: [
     CommonModule,
     SpacesRoutingModule,
     ConfigModule,
     MatMenuModule,
-    TruncateModule
+    TruncateModule,
+    DaySchedulesModule
   ]
 })
 export class SpacesModule { }

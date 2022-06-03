@@ -1,0 +1,18 @@
+.custom-schedules-component {
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0px !important;
+  }
+
+  ::ng-deep .mat-form-field-underline {
+    bottom: 0 !important;
+  }
+
+  ::ng-deep .mat-form-field-infix {
+    border: 0px !important;
+    text-align: center !important;
+  }
+}
+
+::ng-deep .mat-menu-panel {
+  width: 350px !important;
+}

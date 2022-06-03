@@ -8,9 +8,12 @@
   <vex-page-layout-content vexContainer>
     <div fxLayout="row wrap" fxLayout.lt-sm="column">
       <div fxFlex="50%" fxFlex.md="33.3%" fxFlex.gt-md="25%" class="p-3">
-        <div matRipple
+        <div
+          matRipple
           class="border-dashed border-2 border-info-600 hover:border-info-900 rounded-lg h-full w-full flex items-center justify-center hover:shadow-xl cursor-pointer text-info-600 hover:text-info-900"
-          style="min-height: 250px;" (click)="navigation.relativeNavigate(['create'], route)">
+          style="min-height: 250px"
+          (click)="navigation.relativeNavigate(['create'], route)"
+        >
           <div class="text-center">
             <mat-icon [icIcon]="icAdd"></mat-icon>
             <h6>Agregar</h6>
@@ -18,34 +21,65 @@
         </div>
       </div>
 
-      <div fxFlex="50%" fxFlex.md="33.3%" fxFlex.gt-md="25%" class="p-3" *ngFor="let space of spaces">
-        <div class="card p-6 relative hover:shadow-16 trans-shadow h-ful" fxLayout="column" fxLayoutAlign="start center"
-          style="min-height: 250px;">
-          <button class="absolute top-0 right-0 mt-2 mr-1" mat-icon-button [matMenuTriggerFor]="spaceMenu">
+      <div
+        fxFlex="50%"
+        fxFlex.md="33.3%"
+        fxFlex.gt-md="25%"
+        class="p-3"
+        *ngFor="let space of spaces"
+      >
+        <div
+          matRipple
+          class="card p-6 relative hover:shadow-16 trans-shadow h-ful cursor-pointer"
+          fxLayout="column"
+          fxLayoutAlign="start center"
+          style="min-height: 250px"
+          (click)="navigation.relativeNavigate(['edit', space.id], route)"
+        >
+          <button
+            class="absolute top-0 right-0 mt-2 mr-1"
+            mat-icon-button
+            [matMenuTriggerFor]="spaceMenu"
+            (click)="$event.stopPropagation()"
+          >
             <mat-icon [icIcon]="icDots" height="22px" width="22px"></mat-icon>
           </button>
           <mat-menu #spaceMenu="matMenu">
-            <button mat-menu-item (click)="navigation.relativeNavigate(['edit', space.id], route)">
+            <button
+              mat-menu-item
+              (click)="navigation.relativeNavigate(['edit', space.id], route)"
+            >
               <mat-icon [icIcon]="icEdit"></mat-icon>
               <span>Editar</span>
             </button>
             <button mat-menu-item>
-              <mat-icon [icIcon]="space.is_active? icDisable: icEnable"></mat-icon>
-              <span>{{space.is_active? "Deshabilitar": "Habilitar"}}</span>
+              <mat-icon
+                [icIcon]="space.is_active ? icDisable : icEnable"
+              ></mat-icon>
+              <span>{{ space.is_active ? "Deshabilitar" : "Habilitar" }}</span>
             </button>
             <button mat-menu-item>
               <mat-icon [icIcon]="icDelete"></mat-icon>
               <span>Eliminar</span>
             </button>
           </mat-menu>
-          <div class="rounded-full w-12 h-12 flex items-center justify-center text-primary bg-primary-light"
-            [ngClass]="{'text-gray': !space.is_active, 'text-primary': space.is_active}">
+          <div
+            class="rounded-full w-12 h-12 flex items-center justify-center text-primary bg-primary-light"
+            [ngClass]="{
+              'text-gray': !space.is_active,
+              'text-primary': space.is_active
+            }"
+          >
             <mat-icon [icIcon]="icRoom"></mat-icon>
           </div>
-          <h2 class="display-1 font-semibold mt-4 mb-2 text text-center" [ngClass]="{'text-gray': !space.is_active}">{{
-            space.name }}</h2>
-          <h3 class=" subheading-2 font-medium text-secondary m-0 text-center">
-            {{ space.description | truncate:40 }}
+          <h2
+            class="display-1 font-semibold mt-4 mb-2 text text-center"
+            [ngClass]="{ 'text-gray': !space.is_active }"
+          >
+            {{ space.name }}
+          </h2>
+          <h3 class="subheading-2 font-medium text-secondary m-0 text-center">
+            {{ space.description | truncate: 40 }}
           </h3>
         </div>
       </div>

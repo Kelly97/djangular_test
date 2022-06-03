@@ -1,11 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
-import icAdd from '@iconify/icons-ic/add'
-import icCopy from '@iconify/icons-ic/content-copy'
-import icHypen from '@iconify/icons-ic/sharp-minus'
-import icDelete from '@iconify/icons-ic/sharp-delete-outline'
-import icPeople from '@iconify/icons-ic/outline-person'
-import icClock from '@iconify/icons-ic/outline-schedule'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { Subscription } from 'rxjs';
@@ -25,13 +19,6 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
   originalRecord: any;
 
   private routeSub: Subscription;
-
-  icAdd = icAdd;
-  icCopy = icCopy;
-  icHypen = icHypen;
-  icDelete = icDelete;
-  icPeople = icPeople;
-  icClock = icClock;
 
   form = new FormGroup(
     {
@@ -73,9 +60,10 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routeSub = this.route.params.subscribe(params => {
+    this.routeSub = this.route.parent.params.subscribe(params => {
       this.currentId = params['id'];
       if (this.currentId) {
+        this.editMode = true;
         this.getInfo()
       }
     });
@@ -92,6 +80,7 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
 
   getInfo() {
     this.spaceServices.getSpace(this.currentId).subscribe((resp: any) => {
+      this.originalRecord = resp;
       Object.keys(this.form.controls).forEach((key) => {
         this.form.controls[key].setValue(resp[key]);
       });

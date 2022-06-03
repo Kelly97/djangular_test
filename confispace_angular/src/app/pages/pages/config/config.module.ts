@@ -20,6 +20,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatCardModule} from '@angular/material/card';
+import { TruncateModule } from 'src/app/pipes/truncate/truncate.module';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -46,7 +51,12 @@ import {MatCardModule} from '@angular/material/card';
     MatRadioModule,
     MatSlideToggleModule,
     MatCardModule,
-    MatRippleModule
+    MatRippleModule,
+    TruncateModule,
+    MatTabsModule,
+    MatTooltipModule,
+    MatDividerModule,
+    MatDialogModule
   ]
 })
 export class ConfigModule { }

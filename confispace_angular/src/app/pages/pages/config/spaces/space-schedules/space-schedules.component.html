@@ -1,0 +1,16 @@
+<div class="card p-6 mt-6">
+  <div fxLayout="row" fxLayout.lt-xl="column">
+    <div @fadeInUp fxFlex="100">
+      <div class="md:px-6 py-4 border-b">
+        <h2 class="m-0">Configuración de Horarios</h2>
+      </div>
+      <day-schedules></day-schedules>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" class="mt-5">
+    <button mat-button type="button" (click)="navigation.goBack()">
+      Cancelar
+    </button>
+    <button color="primary" mat-raised-button type="button">Guardar</button>
+  </div>
+</div>
