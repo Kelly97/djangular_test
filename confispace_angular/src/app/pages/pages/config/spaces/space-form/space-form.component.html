@@ -3,7 +3,7 @@
     <div @fadeInUp fxFlex="100">
       <div class="md:px-6 py-4 border-b">
         <h2 class="m-0">
-          {{ this.currentId ? "Editar" : "Nuevo" }} Espacio
+          {{ this.currentId ? "Editar" : "Nuevo" }}
           {{ originalRecord?.name }}
         </h2>
       </div>
@@ -13,16 +13,20 @@
         fxLayout="row wrap"
         fxLayoutGap.xs="0"
       >
-        <mat-form-field fxFlex="100" class="p-1">
-          <mat-label>Nombre</mat-label>
-          <input
-            #nameLengthHint
-            matInput
-            maxlength="30"
-            formControlName="name"
-          />
-          <mat-hint align="end">{{ nameLengthHint.value.length }}/30</mat-hint>
-        </mat-form-field>
+        <div fxFlex="100" class="p-1 flex">
+          <mat-form-field class="flex-1">
+            <mat-label>Nombre</mat-label>
+            <input
+              #nameLengthHint
+              matInput
+              maxlength="30"
+              formControlName="name"
+            />
+            <mat-hint align="end"
+              >{{ nameLengthHint.value.length }}/30</mat-hint
+            >
+          </mat-form-field>
+        </div>
 
         <mat-form-field fxFlex="100" class="p-1">
           <mat-label>Descripción</mat-label>
@@ -35,49 +39,99 @@
           <mat-hint align="end">{{ descLengthHint.value.length }}/100</mat-hint>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
-          <mat-label>Número máximo de asistentes</mat-label>
-          <input matInput maxlength="5" formControlName="max_spots" />
-        </mat-form-field>
+        <div fxFlex="100" class="my-5">
+          <mat-divider></mat-divider>
+        </div>
 
-        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
-          <mat-label>Días máximos habilitados</mat-label>
-          <input matInput maxlength="6" formControlName="max_booking_days" />
-        </mat-form-field>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
+          <mat-form-field class="flex-1">
+            <mat-label>Máx. Reservas simultáneas</mat-label>
+            <input matInput maxlength="5" formControlName="max_spots" />
+          </mat-form-field>
+          <help-button class="p-1" [text]="helpText.max_spots"></help-button>
+        </div>
 
-        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
-          <mat-label>Reservas máximas por día</mat-label>
-          <input matInput maxlength="6" formControlName="daily_max_bookings" />
-        </mat-form-field>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
+          <mat-form-field class="flex-1">
+            <mat-label>Días máx. habilitados</mat-label>
+            <input matInput maxlength="6" formControlName="max_booking_days" />
+          </mat-form-field>
+          <help-button
+            class="p-1"
+            [text]="helpText.max_booking_days"
+          ></help-button>
+        </div>
 
-        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
-          <mat-label>Reservas máximas por semana</mat-label>
-          <input matInput maxlength="6" formControlName="weekly_max_bookings" />
-        </mat-form-field>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
+          <mat-form-field class="flex-1">
+            <mat-label>Máx. reservas por día</mat-label>
+            <input
+              matInput
+              maxlength="6"
+              formControlName="daily_max_bookings"
+            />
+            <mat-hint align="end"
+              >Ingrece 0 (cero) para indicar que no existe un límite</mat-hint
+            >
+          </mat-form-field>
+          <help-button
+            class="p-1"
+            [text]="helpText.daily_max_bookings"
+          ></help-button>
+        </div>
 
-        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
-          <mat-label>Capacidad de asistentes</mat-label>
-          <input matInput maxlength="6" formControlName="capacity" />
-        </mat-form-field>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
+          <mat-form-field class="flex-1">
+            <mat-label>Máx.reservas por semana</mat-label>
+            <input
+              matInput
+              maxlength="6"
+              formControlName="weekly_max_bookings"
+            />
+            <mat-hint align="end"
+              >Ingrece 0 (cero) para indicar que no existe un límite</mat-hint
+            >
+          </mat-form-field>
+          <help-button
+            class="p-1"
+            [text]="helpText.weekly_max_bookings"
+          ></help-button>
+        </div>
 
-        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="p-1">
-          <mat-label>Incrementos del horario (minutos)</mat-label>
-          <input matInput maxlength="6" formControlName="increments" />
-        </mat-form-field>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
+          <mat-form-field class="flex-1">
+            <mat-label>Capacidad de asistentes</mat-label>
+            <input matInput maxlength="6" formControlName="capacity" />
+          </mat-form-field>
+          <help-button class="p-1" [text]="helpText.capacity"></help-button>
+        </div>
 
-        <mat-checkbox
-          color="primary"
-          [checked]="true"
-          fxFlex="100"
-          class="p-1"
-          formControlName="is_active"
-          >Espacio habilitado
-        </mat-checkbox>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
+          <mat-form-field class="flex-1">
+            <mat-label>Incrementos del horario (minutos)</mat-label>
+            <input matInput maxlength="6" formControlName="increments" />
+          </mat-form-field>
+          <help-button class="p-1" [text]="helpText.increments"></help-button>
+        </div>
+
+        <div fxFlex="100" class="flex items-center">
+          <mat-checkbox
+            color="primary"
+            class="p-1"
+            formControlName="is_active"
+            >Espacio habilitado
+          </mat-checkbox>
+          <help-button class="p-1" [text]="helpText.is_active"></help-button>
+        </div>
       </form>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" class="mt-5">
-    <button mat-button type="button" (click)="navigation.goBack()">
+    <button
+      mat-button
+      type="button"
+      (click)="navigation.goBackRelative(editMode ? 3 : 2, route)"
+    >
       Cancelar
     </button>
     <button color="primary" mat-raised-button type="button">Guardar</button>

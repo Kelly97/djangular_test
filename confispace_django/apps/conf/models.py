@@ -92,7 +92,7 @@ class Schedule(ModelBase):
 class Holiday(ModelBase):
     date = models.DateField(
         unique=True,
-        error_messages={"unique": "A holiday with that date already exists.",},
+        error_messages={"unique": "Ya existe un día festivo en la fecha seleccionada.",},
         verbose_name="Fecha",
         help_text="Fecha correspondiente del feriado.",)
     description = models.CharField(

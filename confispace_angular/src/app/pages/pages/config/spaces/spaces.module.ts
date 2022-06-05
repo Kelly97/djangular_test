@@ -10,6 +10,9 @@ import { TruncateModule } from 'src/app/pipes/truncate/truncate.module';
 import { SpaceDetailsComponent } from './space-details/space-details.component';
 import { SpaceSchedulesComponent } from './space-schedules/space-schedules.component';
 import { DaySchedulesModule } from 'src/app/components/day-schedules/day-schedules.module';
+import { HelpButtonModule } from 'src/app/components/help-button/help-button.module';
+import { MatDividerModule } from '@angular/material/divider';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -25,7 +28,11 @@ import { DaySchedulesModule } from 'src/app/components/day-schedules/day-schedul
     ConfigModule,
     MatMenuModule,
     TruncateModule,
-    DaySchedulesModule
+    DaySchedulesModule,
+    HelpButtonModule,
+    MatDividerModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class SpacesModule { }

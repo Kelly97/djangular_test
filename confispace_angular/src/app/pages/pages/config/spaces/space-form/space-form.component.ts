@@ -32,7 +32,7 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
       max_spots: new FormControl("", [
         Validators.required
       ]),
-      is_active: new FormControl("", [
+      is_active: new FormControl(true, [
         Validators.required
       ]),
       increments: new FormControl("", [
@@ -47,7 +47,7 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
       weekly_max_bookings: new FormControl("", [
         Validators.required
       ]),
-      time_by_range: new FormControl("", [
+      time_by_range: new FormControl(false, [
         Validators.required
       ]),
       capacity: new FormControl("", [
@@ -56,7 +56,17 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
     }
   );
 
-  constructor(public navigation: NavigationService, private route: ActivatedRoute, private spaceServices: SpacesService) {
+  helpText: any = {
+    increments: "Intervalo de tiempo mínimo (minutos) que podrá ser reservado.",
+    capacity: "Cantidad solamente informativa de la capacidad de asistentes de la sala.",
+    daily_max_bookings: "Cantidad máxima de reservas que el usuario puede crear en el día.",
+    weekly_max_bookings: "Cantidad máxima de reservas que el usuario puede crear en la semana.",
+    max_booking_days: "Cantidad máxima de días que serán habilitados en el calendario para crear reservas.",
+    max_spots: "Número máximo de reservas simultáneas permitidas en un intérvalo de tiempo.",
+    is_active: "Indicador para mostrar u ocultar el espacio en el calendario de reservas."
+  }
+
+  constructor(public navigation: NavigationService, public route: ActivatedRoute, private spaceServices: SpacesService) {
   }
 
   ngOnInit(): void {

@@ -1,30 +1,94 @@
 <div
   fxLayout="row"
-  fxLayoutGap="10px"
-  class="border-b p-6 custom-schedules-component"
+  fxLayout.lt-sm="column-reverse"
+  class="border-b custom-schedules-component md:px-6 px-0 py-6"
 >
-  <div style="width: 300px" class="py-3">
-    <mat-checkbox>Miércoles</mat-checkbox>
-  </div>
-  <div fxLayout="column">
-    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
-      <mat-form-field class="w-32">
-        <input matInput />
-      </mat-form-field>
-      <mat-icon [icIcon]="icHypen"></mat-icon>
-      <mat-form-field class="w-32">
-        <input matInput />
-      </mat-form-field>
-      <button mat-icon-button aria-label="Eliminar" matTooltip="Eliminar">
-        <mat-icon [icIcon]="icDelete"></mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Agregar" matTooltip="Grupos">
-        <mat-icon [icIcon]="icPeople"></mat-icon>
-      </button>
+  <div fxLayout="row" fxLayout.lt-sm="column" @stagger>
+    <div style="width: 160px" class="py-3">
+      <mat-checkbox
+        (change)="toogleCheckDay($event)"
+        [disabled]="disabled"
+        [checked]="schedule.ranges?.length > 0"
+        >{{ schedule.label }}</mat-checkbox
+      >
+    </div>
+    <div fxLayout="column">
+      <div
+        @scaleInOut
+        *ngIf="!schedule.ranges || schedule.ranges?.length == 0"
+        class="w-full text-hint min-w-40 rounded-sm p-4"
+      >
+        No disponible
+      </div>
+      <div
+        @scaleInOut
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        *ngFor="let item of schedule.ranges; let index = index"
+        class="pb-6"
+      >
+        <mat-form-field class="w-20">
+          <input
+            matInput
+            [(ngModel)]="item.start_time"
+            (ngModelChange)="handleChange()"
+            [disabled]="disabled"
+          />
+        </mat-form-field>
+        <mat-icon
+          [icIcon]="icHypen"
+          [ngClass]="{ 'text-hint': disabled }"
+        ></mat-icon>
+        <mat-form-field class="w-20">
+          <input
+            matInput
+            [(ngModel)]="item.end_time"
+            (ngModelChange)="handleChange()"
+            [disabled]="disabled"
+          />
+        </mat-form-field>
+        <button
+          mat-icon-button
+          aria-label="Eliminar"
+          matTooltip="Eliminar"
+          (click)="onRemove(index)"
+          [disabled]="disabled"
+        >
+          <mat-icon [icIcon]="icDelete"></mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          aria-label="Agregar"
+          matTooltip="Grupos"
+          [matBadge]="item.groupsCount || 0"
+          matBadgeSize="small"
+          [disabled]="disabled"
+          [matMenuTriggerFor]="groupsMenu"
+        >
+          <mat-icon [icIcon]="icPeople"></mat-icon>
+        </button>
+        <mat-menu #groupsMenu="matMenu">
+          <button
+            *ngFor="let group of item.groups"
+            class="checkbox-item mat-menu-item"
+            (click)="$event.stopPropagation()"
+          >
+            <mat-checkbox color="primary" [(ngModel)]="group.checked">
+              {{ group.name }}
+            </mat-checkbox>
+          </button>
+        </mat-menu>
+      </div>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="end start" class="w-full">
-    <button mat-icon-button aria-label="Agregar" matTooltip="Agregar">
+    <button
+      mat-icon-button
+      aria-label="Agregar"
+      matTooltip="Agregar"
+      (click)="onAdd()"
+      [disabled]="disabled"
+    >
       <mat-icon [icIcon]="icAdd"></mat-icon>
     </button>
     <button
@@ -32,23 +96,37 @@
       aria-label="Copiar"
       matTooltip="Copiar"
       [matMenuTriggerFor]="copyMenu"
+      [disabled]="disabled"
+      (click)="checkCurrentDay()"
     >
       <mat-icon [icIcon]="icCopy"></mat-icon>
     </button>
-    <mat-menu #copyMenu="matMenu" xPosition="before" yPosition="below">
-      <button
-        *ngFor="let day of commonFunctions.weekDays"
-        class="checkbox-item mat-menu-item"
-      >
-        <mat-checkbox (click)="$event.stopPropagation()" color="primary">
-          {{ day.label }}
-        </mat-checkbox>
-      </button>
-      <div class="px-2">
-        <button color="primary" mat-raised-button type="button" class="w-full">
-          Aplicar
-        </button>
-      </div>
-    </mat-menu>
   </div>
 </div>
+
+<mat-menu #copyMenu="matMenu" xPosition="before" yPosition="below">
+  <button
+    *ngFor="let day of weekDays"
+    class="checkbox-item mat-menu-item"
+    (click)="$event.stopPropagation()"
+  >
+    <mat-checkbox
+      color="primary"
+      [(ngModel)]="day.checked"
+      [disabled]="day.day == schedule.day"
+    >
+      {{ day.label }}
+    </mat-checkbox>
+  </button>
+  <div class="px-2">
+    <button
+      color="primary"
+      mat-raised-button
+      type="button"
+      class="w-full"
+      (click)="onCopy()"
+    >
+      Aplicar
+    </button>
+  </div>
+</mat-menu>

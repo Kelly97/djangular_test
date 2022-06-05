@@ -4,13 +4,22 @@
       <div class="md:px-6 py-4 border-b">
         <h2 class="m-0">Configuración de Horarios</h2>
       </div>
-      <day-schedules></day-schedules>
+      <form [formGroup]="schedulesform">
+        <day-schedules formControlName="1" [groups]="groups"></day-schedules>
+        <day-schedules formControlName="2" [groups]="groups"></day-schedules>
+      </form>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" class="mt-5">
-    <button mat-button type="button" (click)="navigation.goBack()">
+    <button
+      mat-button
+      type="button"
+      (click)="navigation.goBackRelative(3, route)"
+    >
       Cancelar
     </button>
-    <button color="primary" mat-raised-button type="button">Guardar</button>
+    <button color="primary" mat-raised-button type="button" (click)="save()">
+      Guardar
+    </button>
   </div>
 </div>

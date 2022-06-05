@@ -1,0 +1,16 @@
+<button
+  mat-icon-button
+  aria-label="Ayuda"
+  [matMenuTriggerFor]="helpMenu"
+  matTooltip="Ayuda"
+  matTooltipShowDelay="600"
+  class="text-hint font-thin w-6 h-6"
+  type="button"
+>
+  <ic-icon [icon]="icHelp" size="18px"></ic-icon>
+</button>
+<mat-menu #helpMenu="matMenu" yPosition="below">
+  <p class="p-4 text-center">
+    {{ text }}
+  </p>
+</mat-menu>

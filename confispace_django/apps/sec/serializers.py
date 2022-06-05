@@ -1,7 +1,6 @@
 from rest_framework import serializers, validators
 from django.contrib.auth.password_validation import validate_password
 from apps.sec.models import User
-from django.utils.translation import gettext_lazy as _
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,12 +43,12 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
     def validate_old_password(self, value):
         user = self.context['request'].user
         if not user.check_password(value):
-            raise serializers.ValidationError( _('Your old password was entered incorrectly. Please enter it again.'))
+            raise serializers.ValidationError('Su contraseña actual es incorrecta.')
         return value
 
     def validate(self, data):
         if data['old_password'] == data['new_password']:
-            raise serializers.ValidationError({'new_password': _("Your new password is the same as the old password.")})
+            raise serializers.ValidationError({'new_password': "Su actual y nueva contraseña son iguales."})
         return data
     
     def save(self, **kwargs):
@@ -69,7 +68,7 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
     def validate_email(self, value):
         user = self.context['request'].user
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
-            raise serializers.ValidationError( _('This email is already in use.'))
+            raise serializers.ValidationError( 'El correo ingresado ya existe.')
         return value
 
     def save(self, **kwargs):

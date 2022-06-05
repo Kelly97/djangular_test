@@ -13,6 +13,14 @@ export class NavigationService {
     this.location.back();
   }
 
+  goBackRelative(steps: number = 1, route: ActivatedRoute) {
+    let backRoute: string = '../';
+    for (let index = 1; index < steps; index++) {
+      backRoute = backRoute + '../';
+    }
+    this.router.navigate([backRoute], { relativeTo: route });
+  }
+
   relativeNavigate(commands: any[], route: ActivatedRoute) {
     this.router.navigate(commands, { relativeTo: route });
   }

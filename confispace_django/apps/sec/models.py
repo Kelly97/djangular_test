@@ -7,7 +7,7 @@ class User(AbstractUser):
         _("email address"),
         unique=True,
         error_messages={
-            "unique": _("A user with that email already exists."),
+            "unique": "El correo ingresado ya existe.",
         },)
     first_name = models.CharField(_("first name"), max_length=150)
     last_name = models.CharField(_("last name"), max_length=150)
