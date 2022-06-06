@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 
 import icDots from '@iconify/icons-ic/more-vert'
@@ -11,6 +11,7 @@ import icDelete from '@iconify/icons-ic/twotone-delete';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { SpacesService } from '../services/spaces.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'vex-spaces',
@@ -18,7 +19,7 @@ import { SpacesService } from '../services/spaces.service';
   styleUrls: ['./spaces.component.scss'],
   animations: [fadeInUp400ms]
 })
-export class SpacesComponent implements OnInit {
+export class SpacesComponent implements OnInit, OnDestroy {
 
   icDots = icDots;
   icRoom = icRoom;
@@ -30,17 +31,30 @@ export class SpacesComponent implements OnInit {
 
   spaces = []
 
+  private subs: Subscription[] = [];
+
   constructor(public navigation: NavigationService, public route: ActivatedRoute, private spaceServices: SpacesService) { }
 
   ngOnInit(): void {
     this.getSpaces();
   }
 
-  getSpaces() {
-    this.spaceServices.getSpacesGeneral().subscribe((resp: any) => {
-      this.spaces = resp;
-    })
+  ngOnDestroy() {
+    this.subs.forEach((s) => s.unsubscribe());
   }
 
-  disable() { }
+  getSpaces() {
+    const sub = this.spaceServices.getSpacesGeneral().subscribe((resp: any) => {
+      this.spaces = resp;
+    });
+    this.subs.push(sub);
+  }
+
+  toogleSpaceStatus(space) {
+    const sub = this.spaceServices.updateSpaceStatus(space.id).subscribe(
+      (resp: any) => {
+        space.is_active = resp.is_active;
+      });
+    this.subs.push(sub);
+  }
 }

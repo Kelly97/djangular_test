@@ -35,4 +35,8 @@ export class AuthService {
     return this.http.put(this.uri_api + 'update_profile/', data);
   }
 
+  groups() {
+    return this.http.get(this.uri_api + 'groups/');
+  }
+
 }

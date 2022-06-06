@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { ActivatedRoute } from '@angular/router';
 import { SpacesService } from '../../services/spaces.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import moment from 'moment';
 import { commonFunctions } from 'src/app/utilities/common-functions';
 import { FormControl, FormGroup } from '@angular/forms';
 import { group } from 'src/app/components/day-schedules/day-schedules.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'vex-space-schedules',
@@ -22,12 +23,9 @@ export class SpaceSchedulesComponent implements OnInit, OnDestroy {
   editMode: boolean = false;
   currentId: number;
   originalRecord: any;
-  groups: group[] = [
-    { id: 1, name: "Mujeres" },
-    { id: 2, name: "Hombres" }
-  ];
+  groups: group[] = [];
 
-  private routeSub: Subscription;
+  private subs: Subscription[] = [];
 
   commonFunctions = commonFunctions;
 
@@ -35,67 +33,63 @@ export class SpaceSchedulesComponent implements OnInit, OnDestroy {
 
   client_validation_messages = {
     generic: [
-      { type: "rangeInvalid", message: "El formato es de 24 horas (HH:mm), no se permiten valores vacíos." },
+      { type: "rangeInvalid", message: "No se permiten valores vacíos." },
       { type: "rangeOverlap", message: "Existe un traslape en los horarios ingresados." },
     ],
   }
 
   server_validation_messages = {};
 
-  constructor(public navigation: NavigationService, public route: ActivatedRoute, private spaceServices: SpacesService) { }
+  constructor(
+    public navigation: NavigationService,
+    public route: ActivatedRoute,
+    private spaceServices: SpacesService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.commonFunctions.weekDays.forEach(day => {
       this.schedulesform.addControl(day.day.toString(), new FormControl(day))
     })
-    this.routeSub = this.route.parent.params.subscribe(params => {
+    this.getRouteParams();
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach((s) => s.unsubscribe());
+  }
+
+  getRouteParams() {
+    const sub = this.route.parent.params.subscribe(params => {
       this.currentId = params['id'];
       if (this.currentId) {
         this.editMode = true;
-        //this.getInfo()
-        this.schedulesform.get('1').setValue({
-          day: 1,
-          label: "Lunes",
-          ranges: [
-            {
-              id: 1,
-              start_time: "06:00:00",
-              end_time: "09:00:00",
-              groups: []
-            },
-            {
-              id: 2,
-              start_time: "17:00:00",
-              end_time: "19:00:00",
-              groups: [
-                {
-                  id: 1,
-                  name: "Mujeres"
-                },
-                {
-                  id: 1,
-                  name: "Hombres"
-                }
-              ]
-            }
-          ]
-        })
-        this.schedulesform.get('2').setValue({
-          day: 2,
-          label: "Martes",
-        })
+        this.getSchedules()
       }
     });
+    this.subs.push(sub);
   }
 
-
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
+  async getSchedules() {
+    const groups: any = await this.authService.groups().toPromise();
+    this.groups = groups;
+    const schedules: any = await this.spaceServices.getSpaceSchedules(this.currentId).toPromise();
+    Object.keys(schedules).forEach((key) => {
+      this.schedulesform.get(key).setValue(schedules[key]);
+    });
   }
 
   save() {
     this.schedulesform.markAllAsTouched()
-    console.log(this.schedulesform.value)
+    let schedules = [];
+    let days = []
+    let val = this.schedulesform.value;
+    Object.keys(val).forEach(key => {
+      if (val[key]['ranges']) {
+        days.push(val[key]['day'])
+        schedules = schedules.concat(val[key]['ranges'])
+      }
+    })
+    console.log(days)
+    console.log(schedules)
   }
 
   copySchedule(event) {

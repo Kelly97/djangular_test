@@ -18,7 +18,7 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
   currentId: number;
   originalRecord: any;
 
-  private routeSub: Subscription;
+  private subs: Subscription[] = [];
 
   form = new FormGroup(
     {
@@ -56,6 +56,19 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
     }
   );
 
+  client_validation_messages = {
+    /* first_name: [
+      { type: "required", message: "El campo es requerido." },
+      { type: "onlyChar", message: "Solo se admiten letras y espacios." },
+    ],
+    last_name: [
+      { type: "required", message: "El campo es requerido." },
+      { type: "onlyChar", message: "Solo se admiten letras y espacios." },
+    ], */
+  };
+
+  server_validation_messages = {};
+
   helpText: any = {
     increments: "Intervalo de tiempo mínimo (minutos) que podrá ser reservado.",
     capacity: "Cantidad solamente informativa de la capacidad de asistentes de la sala.",
@@ -66,35 +79,75 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
     is_active: "Indicador para mostrar u ocultar el espacio en el calendario de reservas."
   }
 
-  constructor(public navigation: NavigationService, public route: ActivatedRoute, private spaceServices: SpacesService) {
-  }
+  constructor(
+    public navigation: NavigationService,
+    public route: ActivatedRoute,
+    private spaceServices: SpacesService,
+    public router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.routeSub = this.route.parent.params.subscribe(params => {
+    this.getRouteParams();
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach((s) => s.unsubscribe());
+  }
+
+
+  getRouteParams() {
+    const sub = this.route.parent.params.subscribe(params => {
       this.currentId = params['id'];
       if (this.currentId) {
         this.editMode = true;
         this.getInfo()
       }
     });
+    this.subs.push(sub);
   }
-
-
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
-  }
-
-  create() { }
-
-  edit() { }
 
   getInfo() {
-    this.spaceServices.getSpace(this.currentId).subscribe((resp: any) => {
+    const sub = this.spaceServices.getSpace(this.currentId).subscribe((resp: any) => {
       this.originalRecord = resp;
       Object.keys(this.form.controls).forEach((key) => {
         this.form.controls[key].setValue(resp[key]);
       });
-    })
+    });
+    this.subs.push(sub);
+  }
+
+  save() {
+    if (this.currentId) this.edit();
+    else this.create();
+  }
+
+  create() {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      const sub = this.spaceServices.createSpace(this.form.getRawValue()).subscribe(
+        (resp: any) => {
+          console.log(resp)
+          this.router.navigate(['config', 'spaces', 'edit', resp.id, 'general'])
+        },
+        error => {
+          this.server_validation_messages = error
+        });
+      this.subs.push(sub);
+    }
+  }
+
+  edit() {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      const sub = this.spaceServices.updateSpace(this.currentId, this.form.getRawValue()).subscribe(
+        (resp: any) => {
+          this.originalRecord = resp;
+        },
+        error => {
+          this.server_validation_messages = error
+        });
+      this.subs.push(sub);
+    }
   }
 
 

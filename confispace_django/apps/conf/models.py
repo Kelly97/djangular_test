@@ -1,5 +1,6 @@
 from django.db import models
 from apps.utilities.models import ModelBase
+from django.contrib.auth.models import Group
 
 
 class Space(ModelBase):
@@ -79,6 +80,11 @@ class Schedule(ModelBase):
     end_time = models.TimeField(
         verbose_name="Hora final",
         help_text="Hora final del intervalo disponible en el día",)
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name="Grupos",
+        blank=True,
+        help_text="Grupos asociados al horario.")
 
     def __str__(self):
         return str(self.space) + " (" + str(self.get_day_display()) + " - " + str(self.start_time) + " - " + str(self.end_time) + " )" 

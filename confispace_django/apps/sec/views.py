@@ -8,8 +8,9 @@ from knox.models import AuthToken
 from django.contrib.auth import login
 from knox.views import LoginView as KnoxLoginView
 from apps.sec.models import User
-from apps.sec.serializers import ChangePasswordSerializer, RegisterSerializer, UpdateProfileSerializer, UserProfileSerializer, UserSerializer
-
+from django.contrib.auth.models import Group
+from apps.sec.serializers import ChangePasswordSerializer, RegisterSerializer, UpdateProfileSerializer, UserProfileSerializer, UserSerializer, groupSerializer
+from rest_framework.generics import ListAPIView
 
 class RegisterAPI(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -78,3 +79,9 @@ class UpdateProfileView(UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+
+class GroupsViewSet(ListAPIView):
+    permission_classes = [permissions.IsAdminUser]
+    queryset = Group.objects.all()
+    serializer_class = groupSerializer

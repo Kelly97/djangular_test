@@ -4,7 +4,7 @@
   class="custom-schedules-component"
 >
   <div fxLayout="row" fxLayout.lt-sm="column" @stagger>
-    <div style="width: 160px" class="pb-5">
+    <div style="width: 130px" class="pb-5">
       <mat-checkbox
         (change)="toogleCheckDay($event)"
         [disabled]="disabled"
@@ -31,7 +31,7 @@
       >
         <div>
           <div class="flex items-center">
-            <mat-form-field class="w-24">
+            <mat-form-field class="w-32">
               <input
                 matInput
                 [(ngModel)]="item.start_time"
@@ -49,7 +49,7 @@
               [icIcon]="icHypen"
               [ngClass]="{ 'text-hint': disabled }"
             ></mat-icon>
-            <mat-form-field class="w-24">
+            <mat-form-field class="w-32">
               <input
                 matInput
                 [(ngModel)]="item.end_time"

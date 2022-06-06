@@ -52,7 +52,7 @@
               <mat-icon [icIcon]="icEdit"></mat-icon>
               <span>Editar</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="toogleSpaceStatus(space)">
               <mat-icon
                 [icIcon]="space.is_active ? icDisable : icEnable"
               ></mat-icon>

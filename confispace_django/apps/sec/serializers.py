@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from rest_framework import serializers, validators
 from django.contrib.auth.password_validation import validate_password
 from apps.sec.models import User
@@ -78,3 +79,8 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
         user.last_name = self.validated_data['last_name']
         user.save()
         return user
+
+class groupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = "__all__"

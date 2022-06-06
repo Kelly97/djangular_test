@@ -4,7 +4,7 @@
       <div class="md:px-6 py-4 border-b">
         <h2 class="m-0">
           {{ this.currentId ? "Editar" : "Nuevo" }}
-          {{ originalRecord?.name }}
+          {{ originalRecord?.name || "Espacio" }}
         </h2>
       </div>
       <form
@@ -43,82 +43,161 @@
           <mat-divider></mat-divider>
         </div>
 
-        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
-          <mat-form-field class="flex-1">
-            <mat-label>Máx. Reservas simultáneas</mat-label>
-            <input matInput maxlength="5" formControlName="max_spots" />
-          </mat-form-field>
-          <help-button class="p-1" [text]="helpText.max_spots"></help-button>
+        <div
+          fxFlex="100"
+          fxFlex.gt-sm="50"
+          class="p-1 flex flex-col justify-end"
+        >
+          <mat-error
+            *ngFor="let message of server_validation_messages['max_spots']"
+            class="px-2 text-xs mb-1"
+          >
+            <span>{{ message }}</span>
+          </mat-error>
+          <div class="flex">
+            <mat-form-field class="flex-1">
+              <mat-label>Máx. Reservas simultáneas</mat-label>
+              <input matInput maxlength="5" formControlName="max_spots" />
+            </mat-form-field>
+            <help-button class="p-1" [text]="helpText.max_spots"></help-button>
+          </div>
         </div>
 
-        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
-          <mat-form-field class="flex-1">
-            <mat-label>Días máx. habilitados</mat-label>
-            <input matInput maxlength="6" formControlName="max_booking_days" />
-          </mat-form-field>
-          <help-button
-            class="p-1"
-            [text]="helpText.max_booking_days"
-          ></help-button>
+        <div
+          fxFlex="100"
+          fxFlex.gt-sm="50"
+          class="p-1 flex flex-col justify-end"
+        >
+          <mat-error
+            *ngFor="
+              let message of server_validation_messages['max_booking_days']
+            "
+            class="px-2 text-xs mb-1"
+          >
+            <span>{{ message }}</span>
+          </mat-error>
+          <div class="flex">
+            <mat-form-field class="flex-1">
+              <mat-label>Días máx. habilitados</mat-label>
+              <input
+                matInput
+                maxlength="6"
+                formControlName="max_booking_days"
+              />
+            </mat-form-field>
+            <help-button
+              class="p-1"
+              [text]="helpText.max_booking_days"
+            ></help-button>
+          </div>
         </div>
 
-        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
-          <mat-form-field class="flex-1">
-            <mat-label>Máx. reservas por día</mat-label>
-            <input
-              matInput
-              maxlength="6"
-              formControlName="daily_max_bookings"
-            />
-            <mat-hint align="end"
-              >Ingrece 0 (cero) para indicar que no existe un límite</mat-hint
-            >
-          </mat-form-field>
-          <help-button
-            class="p-1"
-            [text]="helpText.daily_max_bookings"
-          ></help-button>
+        <div
+          fxFlex="100"
+          fxFlex.gt-sm="50"
+          class="p-1 flex flex-col justify-end"
+        >
+          <mat-error
+            *ngFor="
+              let message of server_validation_messages['daily_max_bookings']
+            "
+            class="px-2 text-xs mb-1"
+          >
+            <span>{{ message }}</span>
+          </mat-error>
+          <div class="flex">
+            <mat-form-field class="flex-1">
+              <mat-label>Máx. reservas por día</mat-label>
+              <input
+                matInput
+                maxlength="6"
+                formControlName="daily_max_bookings"
+              />
+              <mat-hint align="end"
+                >Ingrece 0 (cero) para indicar que no existe un límite</mat-hint
+              >
+            </mat-form-field>
+            <help-button
+              class="p-1"
+              [text]="helpText.daily_max_bookings"
+            ></help-button>
+          </div>
         </div>
 
-        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
-          <mat-form-field class="flex-1">
-            <mat-label>Máx.reservas por semana</mat-label>
-            <input
-              matInput
-              maxlength="6"
-              formControlName="weekly_max_bookings"
-            />
-            <mat-hint align="end"
-              >Ingrece 0 (cero) para indicar que no existe un límite</mat-hint
-            >
-          </mat-form-field>
-          <help-button
-            class="p-1"
-            [text]="helpText.weekly_max_bookings"
-          ></help-button>
+        <div
+          fxFlex="100"
+          fxFlex.gt-sm="50"
+          class="p-1 flex flex-col justify-end"
+        >
+          <mat-error
+            *ngFor="
+              let message of server_validation_messages['weekly_max_bookings']
+            "
+            class="px-2 text-xs mb-1"
+          >
+            <span>{{ message }}</span>
+          </mat-error>
+          <div class="flex">
+            <mat-form-field class="flex-1">
+              <mat-label>Máx.reservas por semana</mat-label>
+              <input
+                matInput
+                maxlength="6"
+                formControlName="weekly_max_bookings"
+              />
+              <mat-hint align="end"
+                >Ingrece 0 (cero) para indicar que no existe un límite</mat-hint
+              >
+            </mat-form-field>
+            <help-button
+              class="p-1"
+              [text]="helpText.weekly_max_bookings"
+            ></help-button>
+          </div>
         </div>
 
-        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
-          <mat-form-field class="flex-1">
-            <mat-label>Capacidad de asistentes</mat-label>
-            <input matInput maxlength="6" formControlName="capacity" />
-          </mat-form-field>
-          <help-button class="p-1" [text]="helpText.capacity"></help-button>
+        <div
+          fxFlex="100"
+          fxFlex.gt-sm="50"
+          class="p-1 flex flex-col justify-end"
+        >
+          <mat-error
+            *ngFor="let message of server_validation_messages['capacity']"
+            class="px-2 text-xs mb-1"
+          >
+            <span>{{ message }}</span>
+          </mat-error>
+          <div class="flex">
+            <mat-form-field class="flex-1">
+              <mat-label>Capacidad de asistentes</mat-label>
+              <input matInput maxlength="6" formControlName="capacity" />
+            </mat-form-field>
+            <help-button class="p-1" [text]="helpText.capacity"></help-button>
+          </div>
         </div>
 
-        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1 flex">
-          <mat-form-field class="flex-1">
-            <mat-label>Incrementos del horario (minutos)</mat-label>
-            <input matInput maxlength="6" formControlName="increments" />
-          </mat-form-field>
-          <help-button class="p-1" [text]="helpText.increments"></help-button>
+        <div
+          fxFlex="100"
+          fxFlex.gt-sm="50"
+          class="p-1 flex flex-col justify-end"
+        >
+          <mat-error
+            *ngFor="let message of server_validation_messages['increments']"
+            class="px-2 text-xs mb-1"
+          >
+            <span>{{ message }}</span>
+          </mat-error>
+          <div class="flex">
+            <mat-form-field class="flex-1">
+              <mat-label>Incrementos del horario (minutos)</mat-label>
+              <input matInput maxlength="6" formControlName="increments" />
+            </mat-form-field>
+            <help-button class="p-1" [text]="helpText.increments"></help-button>
+          </div>
         </div>
 
         <div fxFlex="100" class="flex items-center">
-          <mat-checkbox
-            color="primary"
-            class="p-1"
-            formControlName="is_active"
+          <mat-checkbox color="primary" class="p-1" formControlName="is_active"
             >Espacio habilitado
           </mat-checkbox>
           <help-button class="p-1" [text]="helpText.is_active"></help-button>
@@ -134,6 +213,8 @@
     >
       Cancelar
     </button>
-    <button color="primary" mat-raised-button type="button">Guardar</button>
+    <button color="primary" mat-raised-button type="button" (click)="save()">
+      {{ this.currentId ? "Guardar" : "Crear" }}
+    </button>
   </div>
 </div>

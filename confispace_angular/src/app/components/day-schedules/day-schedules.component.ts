@@ -10,6 +10,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
 import moment from 'moment';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 import { scaleInOutAnimation } from 'src/@vex/animations/scale-in-out.animation';
+import { group } from '@angular/animations';
 
 @Component({
   selector: 'day-schedules',
@@ -94,7 +95,8 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
         id: null,
         start_time: "",
         end_time: "",
-        groups: Object.assign([], this.groups)
+        groups: Object.assign([], this.groups),
+        day: this.schedule.day
       })
       this.onChange(this.schedule);
     }
@@ -128,9 +130,11 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
     this.schedule.ranges?.forEach(element => {
       element.end_time = commonFunctions.getTime(element.end_time, "HH:mm")
       element.start_time = commonFunctions.getTime(element.start_time, "HH:mm")
-      if (!element.groups?.length) {
-        element.groups = Object.assign([], this.groups);
-      }
+      const groupsChecked = JSON.parse(JSON.stringify(element.groups))
+      element.groups = JSON.parse(JSON.stringify(this.groups))
+      groupsChecked.forEach(group => {
+        element.groups.find(el => el.id === group.id).checked = true;
+      })
       element.groupsCount = element.groups.filter(group => group.checked === true)?.length;
     });
   }
@@ -183,6 +187,7 @@ export interface timeRange {
   end_time: string;
   groups: group[];
   groupsCount?: number;
+  day?: number;
 }
 
 export interface group {

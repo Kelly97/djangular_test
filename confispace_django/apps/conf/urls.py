@@ -9,7 +9,10 @@ urlpatterns = [
     path("space/detail/<int:pk>/", views.SpaceDetailsViewSet.as_view(), name="space_detail"),
     path("space/create/", views.CreateSpaceoAPIView.as_view(), name="space_create"),
     path("space/update/<int:pk>/", views.UpdateSpaceAPIView.as_view(), name="update_space"),
+    path("space/updateStatus/<int:pk>/", views.toggleSpaceStatusAPIView.as_view(), name="update_space_status"),
     path("space/delete/<int:pk>/", views.DeleteSpaceAPIView.as_view(), name="delete_space"),
+    path("space/schedules/<int:space_pk>/", views.SpaceSchedulesViewSet.as_view(), name="space_schedules"),
+    path("space/update_schedules/<int:space_pk>/", views.UpdateSpaceSchedulesAPIView.as_view(), name="update_space_schedules"),
     #Holidays
     path("holidays/list/", views.HolidaysListView.as_view(), name="list_holidays"),
     path("holidays/listcreate/", views.HolidaysListCreateView.as_view(), name="listcreate_holidays"),
