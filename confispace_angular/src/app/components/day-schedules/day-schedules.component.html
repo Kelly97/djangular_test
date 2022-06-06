@@ -1,10 +1,10 @@
 <div
   fxLayout="row"
   fxLayout.lt-sm="column-reverse"
-  class="border-b custom-schedules-component md:px-6 px-0 py-6"
+  class="custom-schedules-component"
 >
   <div fxLayout="row" fxLayout.lt-sm="column" @stagger>
-    <div style="width: 160px" class="py-3">
+    <div style="width: 160px" class="pb-5">
       <mat-checkbox
         (change)="toogleCheckDay($event)"
         [disabled]="disabled"
@@ -16,38 +16,67 @@
       <div
         @scaleInOut
         *ngIf="!schedule.ranges || schedule.ranges?.length == 0"
-        class="w-full text-hint min-w-40 rounded-sm p-4"
+        class="w-full text-hint min-w-40 rounded-sm pb-6"
       >
         No disponible
       </div>
-      <div
+      <form
+        (ngSubmit)="(false)"
         @scaleInOut
         fxLayout="row"
         fxLayoutAlign="center center"
         *ngFor="let item of schedule.ranges; let index = index"
         class="pb-6"
+        #rangesForm="ngForm"
       >
-        <mat-form-field class="w-20">
-          <input
-            matInput
-            [(ngModel)]="item.start_time"
-            (ngModelChange)="handleChange()"
-            [disabled]="disabled"
-          />
-        </mat-form-field>
-        <mat-icon
-          [icIcon]="icHypen"
-          [ngClass]="{ 'text-hint': disabled }"
-        ></mat-icon>
-        <mat-form-field class="w-20">
-          <input
-            matInput
-            [(ngModel)]="item.end_time"
-            (ngModelChange)="handleChange()"
-            [disabled]="disabled"
-          />
-        </mat-form-field>
+        <div>
+          <div class="flex items-center">
+            <mat-form-field class="w-24">
+              <input
+                matInput
+                [(ngModel)]="item.start_time"
+                (ngModelChange)="handleChange()"
+                [disabled]="disabled"
+                name="start_time"
+                #start_time="ngModel"
+                required
+                type="time"
+                min="04:00"
+                max="22:00"
+              />
+            </mat-form-field>
+            <mat-icon
+              [icIcon]="icHypen"
+              [ngClass]="{ 'text-hint': disabled }"
+            ></mat-icon>
+            <mat-form-field class="w-24">
+              <input
+                matInput
+                [(ngModel)]="item.end_time"
+                (ngModelChange)="handleChange()"
+                [disabled]="disabled"
+                [TimeRangeValidator]="item.start_time"
+                name="end_time"
+                #end_time="ngModel"
+                required
+                type="time"
+                min="04:00"
+                max="22:00"
+              />
+            </mat-form-field>
+          </div>
+          <div
+            class="text-xs text-error-600"
+            *ngIf="
+              (end_time.invalid || start_time.invalid) &&
+              (end_time.touched || start_time.touched)
+            "
+          >
+            Formato o rango no válido.
+          </div>
+        </div>
         <button
+          type="button"
           mat-icon-button
           aria-label="Eliminar"
           matTooltip="Eliminar"
@@ -57,11 +86,13 @@
           <mat-icon [icIcon]="icDelete"></mat-icon>
         </button>
         <button
+          type="button"
           mat-icon-button
           aria-label="Agregar"
           matTooltip="Grupos"
           [matBadge]="item.groupsCount || 0"
           matBadgeSize="small"
+          [matBadgeHidden]="!item.groupsCount"
           [disabled]="disabled"
           [matMenuTriggerFor]="groupsMenu"
         >
@@ -69,20 +100,27 @@
         </button>
         <mat-menu #groupsMenu="matMenu">
           <button
+            type="button"
             *ngFor="let group of item.groups"
             class="checkbox-item mat-menu-item"
             (click)="$event.stopPropagation()"
           >
-            <mat-checkbox color="primary" [(ngModel)]="group.checked">
+            <mat-checkbox
+              color="primary"
+              [(ngModel)]="group.checked"
+              (ngModelChange)="updateBadge(index)"
+              [ngModelOptions]="{ standalone: true }"
+            >
               {{ group.name }}
             </mat-checkbox>
           </button>
         </mat-menu>
-      </div>
+      </form>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="end start" class="w-full">
     <button
+      type="button"
       mat-icon-button
       aria-label="Agregar"
       matTooltip="Agregar"
@@ -92,6 +130,7 @@
       <mat-icon [icIcon]="icAdd"></mat-icon>
     </button>
     <button
+      type="button"
       mat-icon-button
       aria-label="Copiar"
       matTooltip="Copiar"
@@ -106,6 +145,7 @@
 
 <mat-menu #copyMenu="matMenu" xPosition="before" yPosition="below">
   <button
+    type="button"
     *ngFor="let day of weekDays"
     class="checkbox-item mat-menu-item"
     (click)="$event.stopPropagation()"

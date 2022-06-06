@@ -12,6 +12,7 @@ import { IconModule } from '@visurel/iconify-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatBadgeModule} from '@angular/material/badge';
+import { TimeRangeValidatorModule } from 'src/app/directives/time-range-validator/time-range-validator.module';
 
 
 
@@ -32,7 +33,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     FlexLayoutModule,
     MatFormFieldModule,
     MatBadgeModule,
-    FormsModule
+    FormsModule,
+    TimeRangeValidatorModule
   ],
   exports: [
     DaySchedulesComponent,

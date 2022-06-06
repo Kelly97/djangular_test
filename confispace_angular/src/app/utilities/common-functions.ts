@@ -1,5 +1,6 @@
 import moment from "moment";
 import { environment } from "src/environments/environment";
+import { timeRange } from './../components/day-schedules/day-schedules.component';
 
 
 export class commonFunctions {
@@ -29,6 +30,36 @@ export class commonFunctions {
 
     static currentTime() {
         return moment().format('h:mm:ss')
+    }
+
+    static validTimeRange(start, end): boolean {
+        const start_time = moment(start, "HH:mm:ss")
+        const end_time = moment(end, "HH:mm:ss")
+        if (!start_time.isValid() || !end_time.isValid() || end_time.isBefore(start_time) || end_time.isSame(start_time)) {
+            return false;
+        }
+        return true
+    }
+
+    static overlapTimeRanges(ranges: timeRange[]): boolean {
+        let timeSegments = Object.assign([], ranges);
+        if (!timeSegments?.length || timeSegments?.length === 1) return false;
+
+        timeSegments.sort((timeSegment1, timeSegment2) => {
+            return timeSegment1.start_time.localeCompare(timeSegment2.start_time)
+        }
+        );
+
+        for (let i = 0; i < timeSegments.length - 1; i++) {
+            const currentEndTime = timeSegments[i].end_time;
+            const nextStartTime = timeSegments[i + 1].start_time;
+
+            if (currentEndTime > nextStartTime) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     static filterItems(value: string, items: any[], keys: string[]) {

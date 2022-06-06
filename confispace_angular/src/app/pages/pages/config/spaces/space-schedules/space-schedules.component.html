@@ -5,12 +5,39 @@
         <h2 class="m-0">Configuración de Horarios</h2>
       </div>
       <form [formGroup]="schedulesform">
-        <day-schedules formControlName="1" [groups]="groups"></day-schedules>
-        <day-schedules formControlName="2" [groups]="groups"></day-schedules>
+        <div *ngFor="let day of commonFunctions.weekDays" class="border-b">
+          <div class="md:px-6 px-0 pt-6">
+            <day-schedules
+              [formControlName]="day.day.toString()"
+              [groups]="groups"
+              (onCopied)="copySchedule($event)"
+            ></day-schedules>
+          </div>
+          <div class="md:px-6 px-0 pb-3 text-xs text-error-600">
+            <span
+              *ngFor="let validation of client_validation_messages['generic']"
+            >
+              <span
+                *ngIf="
+                  schedulesform
+                    .get(day.day.toString())
+                    .hasError(validation.type)
+                "
+              >
+                {{ validation.message }}
+              </span>
+            </span>
+          </div>
+        </div>
       </form>
     </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" class="mt-5">
+  <div
+    fxLayout="row"
+    fxLayoutAlign="end center"
+    fxLayoutGap="8px"
+    class="mt-10"
+  >
     <button
       mat-button
       type="button"

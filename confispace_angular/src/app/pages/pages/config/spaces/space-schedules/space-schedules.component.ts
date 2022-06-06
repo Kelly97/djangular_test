@@ -29,14 +29,25 @@ export class SpaceSchedulesComponent implements OnInit, OnDestroy {
 
   private routeSub: Subscription;
 
-  schedulesform = new FormGroup({
-    1: new FormControl(""),
-    2: new FormControl("")
-  })
+  commonFunctions = commonFunctions;
+
+  schedulesform = new FormGroup({})
+
+  client_validation_messages = {
+    generic: [
+      { type: "rangeInvalid", message: "El formato es de 24 horas (HH:mm), no se permiten valores vacíos." },
+      { type: "rangeOverlap", message: "Existe un traslape en los horarios ingresados." },
+    ],
+  }
+
+  server_validation_messages = {};
 
   constructor(public navigation: NavigationService, public route: ActivatedRoute, private spaceServices: SpacesService) { }
 
   ngOnInit(): void {
+    this.commonFunctions.weekDays.forEach(day => {
+      this.schedulesform.addControl(day.day.toString(), new FormControl(day))
+    })
     this.routeSub = this.route.parent.params.subscribe(params => {
       this.currentId = params['id'];
       if (this.currentId) {
@@ -83,6 +94,16 @@ export class SpaceSchedulesComponent implements OnInit, OnDestroy {
   }
 
   save() {
+    this.schedulesform.markAllAsTouched()
     console.log(this.schedulesform.value)
+  }
+
+  copySchedule(event) {
+    if (event) {
+      event.days.forEach(day => {
+        const dayControl = this.schedulesform.get(day.toString()).value;
+        this.schedulesform.get(day.toString()).setValue({ ...dayControl, ranges: JSON.parse(JSON.stringify(event.ranges)) });
+      });
+    }
   }
 }

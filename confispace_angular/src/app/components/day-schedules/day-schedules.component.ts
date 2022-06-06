@@ -40,7 +40,7 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
 
   commonFunctions = commonFunctions;
   moment = moment;
-  weekDays = commonFunctions.weekDays;
+  weekDays = JSON.parse(JSON.stringify(commonFunctions.weekDays));
 
   schedule: schedule = { day: null, label: null, ranges: [] };
   rangesCopy: timeRange[] = [];
@@ -61,13 +61,18 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
 
   onTouched = () => { };
 
+  onValidationChange: any = () => { };
+
   checkCurrentDay() {
     const day: any = this.weekDays.find(day => day.day === this.schedule?.day);
     day && (day.checked = true);
   }
 
+  updateBadge(index: number) {
+    this.schedule.ranges[index].groupsCount = this.schedule.ranges[index].groups.filter(group => group.checked === true)?.length;
+  }
+
   toogleCheckDay(event) {
-    console.log(event.checked)
     if (event.checked === true) {
       if (this.rangesCopy.length > 0) {
         this.schedule.ranges = Object.assign([], this.rangesCopy)
@@ -78,6 +83,7 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
       this.rangesCopy = Object.assign([], this.schedule?.ranges);
       this.schedule.ranges = []
     }
+    this.onChange(this.schedule);
   }
 
   onAdd() {
@@ -86,8 +92,8 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
       !this.schedule.ranges && (this.schedule.ranges = []);
       this.schedule.ranges.push({
         id: null,
-        start_time: "06:00",
-        end_time: "17:00",
+        start_time: "",
+        end_time: "",
         groups: Object.assign([], this.groups)
       })
       this.onChange(this.schedule);
@@ -104,7 +110,6 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
 
   handleChange() {
     this.onTouched();
-    console.log(this.schedule)
     this.onChange(this.schedule);
   }
 
@@ -116,12 +121,13 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
     }
     this.onCopied.emit(data);
     this.weekDays.map((day: any) => day.checked = false);
-    console.log(data)
   }
 
   writeValue(schedule: schedule) {
     this.schedule = schedule;
     this.schedule.ranges?.forEach(element => {
+      element.end_time = commonFunctions.getTime(element.end_time, "HH:mm")
+      element.start_time = commonFunctions.getTime(element.start_time, "HH:mm")
       if (!element.groups?.length) {
         element.groups = Object.assign([], this.groups);
       }
@@ -131,6 +137,7 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
 
   registerOnChange(onChange: any) {
     this.onChange = onChange;
+    this.onValidationChange();
   }
 
   registerOnTouched(onTouched: any) {
@@ -144,20 +151,22 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
     }
   }
 
+  registerOnValidatorChange?(fn: () => void): void {
+    this.onValidationChange = fn;
+  }
+
+
   setDisabledState(disabled: boolean) {
     this.disabled = disabled;
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
-    /*  const quantity = control.value;
-     if (quantity <= 0) {
-       return {
-         mustBePositive: {
-           quantity
-         }
-       };
-     } */
-    return null
+    if (control.value.ranges?.some(el => !commonFunctions.validTimeRange(el.start_time, el.end_time)))
+      return { rangeInvalid: true }
+    else if (commonFunctions.overlapTimeRanges(control.value?.ranges))
+      return { rangeOverlap: true }
+    else
+      return null
   }
 
 }
