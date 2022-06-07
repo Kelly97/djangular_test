@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from apps.conf.models import Holiday, Schedule, Space
 from apps.sec.serializers import groupSerializer
+from django.contrib.auth.models import Group
+
+from apps.utilities.serializers import BaseSerializer
 
 """ SPACES """
 
@@ -33,12 +36,45 @@ class SpaceStatuserializer(serializers.ModelSerializer):
         return instance
 
 
-class SpaceSchedulesSerializer(serializers.ModelSerializer):
-    groups = groupSerializer(read_only=True, many=True)
-    day_label = serializers.CharField(source='get_day_display')
+class SpaceSchedulesSerializer(BaseSerializer):
+    groups = groupSerializer(many=True)
+    day_label = serializers.CharField(read_only=True, source='get_day_display')
+
+    def get_or_create_groups(self, groups):
+        groups_ids = []
+        for group in groups:
+            group_instance = Group.objects.filter(pk=group.get('id')).first()
+            groups_ids.append(group_instance.pk)
+        return groups_ids
+
+    def create_or_update_groups(self, groups):
+        groups_ids = []
+        for group in groups:
+            group_instance, created = Group.objects.update_or_create(pk=group.get('id'), defaults=group)
+            groups_ids.append(group_instance.pk)
+        return groups_ids
+
+    def create(self, validated_data):
+        groups = validated_data.pop('groups', [])
+        schedule = Schedule.objects.create(**validated_data)
+        schedule.groups.set(self.get_or_create_groups(groups))
+        return schedule
+
+    def update(self, instance, validated_data):
+        groups = validated_data.pop('groups', [])
+        instance.groups.set(self.get_or_create_groups(groups))
+        fields = ['start_time', 'end_time', 'day']
+        for field in fields:
+            try:
+                setattr(instance, field, validated_data[field])
+            except KeyError:  # validated_data may not contain all fields during HTTP PATCH
+                pass
+        instance.save()
+        return instance
+
     class Meta:
         model = Schedule
-        fields = "__all__"
+        fields = "__all__"   
 
 
 """ HOLIDAYS """

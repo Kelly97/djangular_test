@@ -84,3 +84,7 @@ class groupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = "__all__"
+        extra_kwargs = {
+            'name': {'validators': []},
+            'id': {'read_only': False}   
+        }

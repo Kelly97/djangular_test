@@ -5,6 +5,7 @@ from apps.conf.serializers import HolidayBasicSerializer, HolidaySerializer, Spa
 from apps.utilities.views import BaseViewSet
 from rest_framework.response import Response
 from collections import defaultdict
+from rest_framework import status
 
 """ SPACES """
 
@@ -68,13 +69,70 @@ class SpaceSchedulesViewSet(views.APIView):
                     "ranges": [result]}                
         return Response(schedules)
 
-class UpdateSpaceSchedulesAPIView(BaseViewSet, UpdateAPIView):
+class UpdateSpaceSchedulesAPIView(BaseViewSet, ListCreateAPIView):
     permission_classes = [permissions.IsAdminUser]
-    def get_object(self, ticket_id):
-            try:
-                return Schedule.objects.get(id=ticket_id)
-            except EventTicket.DoesNotExist():
-                raise status.HTTP_400_BAD_REQUEST
+
+    def post(self, request):
+        records = request.data.get("schedules")
+        records_ids = request.data.get("schedules_ids")
+        space_id = request.data.get("space_id")
+        user = self.request.user
+
+        records_to_delete = Schedule.objects.filter(space = space_id).exclude(id__in=records_ids)
+        records_to_create = []
+        records_to_update = []
+
+        [
+            records_to_update.append(record)
+            if record["id"] is not None
+            else records_to_create.append(record)
+            for record in records
+        ]
+        
+        [record.pop("id") for record in records_to_create]
+
+        for values in records_to_create:
+            values['space'] = space_id
+            serializer = SpaceSchedulesSerializer(data=values)
+            serializer.is_valid(raise_exception=True)
+            schedule = self.perform_create(serializer)
+        
+        
+        """ created_records = Schedule.objects.bulk_create(
+            [Schedule(**values, space_id=space_id, created_by=user, updated_by=user) for values in records_to_create], 
+            batch_size=1000
+        ) """
+        
+        """ Schedule.objects.bulk_create(
+            records_to_create,
+            batch_size=1000
+        ) """
+
+        """ Schedule.objects.bulk_update(
+            records_to_update, 
+            ['start_time', 'end_time', 'updated_at','updated_by_id'], 
+            batch_size=1000
+        ) """
+
+        """ Schedule.objects.bulk_update(
+            [
+                Schedule(id=values.get("id"), value=values.get("value"))
+                for values in records_to_update
+            ],
+            ["value"],
+            batch_size=1000
+        ) """
+        
+        """ message = None
+        if len(records_to_update) > 0 and len(records_to_create) > 0:
+            http_status = status.HTTP_200_OK
+        elif len(records_to_update) > 0 and len(records_to_create) == 0:
+            http_status = status.HTTP_204_NO_CONTENT
+        elif len(records_to_update) == 0 and len(records_to_create) > 0:
+            http_status = status.HTTP_201_CREATED
+            message = "Proceso terminado" """
+            
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
 """ HOLIDAYS """
