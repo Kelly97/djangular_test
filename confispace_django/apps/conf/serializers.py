@@ -45,7 +45,17 @@ class SpaceSchedulesSerializer(BaseSerializer):
 class UpdateSpaceSchedulesSerializer(BaseSerializer):
     groups = groupSerializer(many=True)
     day_label = serializers.CharField(read_only=True, source='get_day_display')
-    #space = SpaceSerializer(required=False)
+    
+    """ def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError('Su contraseña actual es incorrecta.')
+        return value """
+
+    def validate(self, data):
+        if data['start_time'] >= data['end_time']:
+            raise serializers.ValidationError({'end_time': "La hora final no puede ser menor o igual a la hora inicial."})
+        return data
 
     def get_or_create_groups(self, groups):
         groups_ids = []

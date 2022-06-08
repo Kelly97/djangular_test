@@ -47,8 +47,7 @@ export class commonFunctions {
 
         timeSegments.sort((timeSegment1, timeSegment2) => {
             return timeSegment1.start_time.localeCompare(timeSegment2.start_time)
-        }
-        );
+        });
 
         for (let i = 0; i < timeSegments.length - 1; i++) {
             const currentEndTime = timeSegments[i].end_time;
