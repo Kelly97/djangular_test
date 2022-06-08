@@ -23,6 +23,10 @@ export class SpacesService {
     return this.http.get(`${this.uri_api}space/schedules/${id}/`);
   }
 
+  updateSpaceSchedules(data: any) {
+    return this.http.post(`${this.uri_api}space/update_schedules/`, data);
+  }
+
   createSpace(data: any) {
     return this.http.post(`${this.uri_api}space/create/`, data);
   }

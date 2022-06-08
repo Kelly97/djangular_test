@@ -79,17 +79,22 @@ export class SpaceSchedulesComponent implements OnInit, OnDestroy {
 
   save() {
     this.schedulesform.markAllAsTouched()
-    let schedules = [];
-    let days = []
-    let val = this.schedulesform.value;
-    Object.keys(val).forEach(key => {
-      if (val[key]['ranges']) {
-        days.push(val[key]['day'])
-        schedules = schedules.concat(val[key]['ranges'])
+    if (this.schedulesform.valid) {
+      let schedules = [];
+      let val = this.schedulesform.value;
+      Object.keys(val).forEach(key => {
+        if (val[key]['ranges']) {
+          schedules = schedules.concat(val[key]['ranges'])
+        }
+      })
+      let data = {
+        space_id: this.currentId,
+        schedules: schedules
       }
-    })
-    console.log(days)
-    console.log(schedules)
+      console.log(data)
+      const sub = this.spaceServices.updateSpaceSchedules(data).subscribe(resp => { }, error => { })
+      this.subs.push(sub);
+    }
   }
 
   copySchedule(event) {

@@ -35,10 +35,17 @@ class SpaceStatuserializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
 class SpaceSchedulesSerializer(BaseSerializer):
     groups = groupSerializer(many=True)
     day_label = serializers.CharField(read_only=True, source='get_day_display')
+    class Meta:
+        model = Schedule
+        fields = "__all__"
+
+class UpdateSpaceSchedulesSerializer(BaseSerializer):
+    groups = groupSerializer(many=True)
+    day_label = serializers.CharField(read_only=True, source='get_day_display')
+    #space = SpaceSerializer(required=False)
 
     def get_or_create_groups(self, groups):
         groups_ids = []
@@ -54,6 +61,11 @@ class SpaceSchedulesSerializer(BaseSerializer):
             groups_ids.append(group_instance.pk)
         return groups_ids
 
+    def remove_groups(self, groups):
+        schedule = self.get_object()
+        groups_to_remove = [record.pop("id") for record in groups]
+        schedule.groups.all().exclude()
+
     def create(self, validated_data):
         groups = validated_data.pop('groups', [])
         schedule = Schedule.objects.create(**validated_data)
@@ -62,19 +74,25 @@ class SpaceSchedulesSerializer(BaseSerializer):
 
     def update(self, instance, validated_data):
         groups = validated_data.pop('groups', [])
+        instance.groups.clear()
         instance.groups.set(self.get_or_create_groups(groups))
-        fields = ['start_time', 'end_time', 'day']
+        fields = ['start_time', 'end_time']
         for field in fields:
             try:
                 setattr(instance, field, validated_data[field])
             except KeyError:  # validated_data may not contain all fields during HTTP PATCH
                 pass
+        setattr(instance, 'updated_by', self.context['request'].user)
         instance.save()
         return instance
 
     class Meta:
         model = Schedule
-        fields = "__all__"   
+        fields = "__all__"
+        optional_fields = ['space', ]
+        """ extra_kwargs = {
+            'space': {'write_only': True}            
+        }  """ 
 
 
 """ HOLIDAYS """
