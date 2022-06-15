@@ -2,10 +2,11 @@ from rest_framework import serializers
 from apps.conf.models import Holiday, Schedule, Space
 from apps.sec.serializers import groupSerializer
 from django.contrib.auth.models import Group
-
+from django.db.models import Q
 from apps.utilities.serializers import BaseSerializer
 
 """ SPACES """
+
 
 class SpaceBasicSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,10 +23,11 @@ class SpaceSerializer(serializers.ModelSerializer):
         model = Space
         fields = "__all__"
 
+
 class SpaceStatuserializer(serializers.ModelSerializer):
     class Meta:
         model = Space
-        fields = ['id','is_active']
+        fields = ['id', 'is_active']
 
     def update(self, instance, validated_data):
         if instance.is_active == True:
@@ -35,26 +37,31 @@ class SpaceStatuserializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class SpaceSchedulesSerializer(BaseSerializer):
     groups = groupSerializer(many=True)
     day_label = serializers.CharField(read_only=True, source='get_day_display')
+
     class Meta:
         model = Schedule
         fields = "__all__"
 
+
 class UpdateSpaceSchedulesSerializer(BaseSerializer):
     groups = groupSerializer(many=True)
     day_label = serializers.CharField(read_only=True, source='get_day_display')
-    
-    """ def validate_old_password(self, value):
-        user = self.context['request'].user
-        if not user.check_password(value):
-            raise serializers.ValidationError('Su contraseña actual es incorrecta.')
-        return value """
 
     def validate(self, data):
         if data['start_time'] >= data['end_time']:
-            raise serializers.ValidationError({'end_time': "La hora final no puede ser menor o igual a la hora inicial."})
+            raise serializers.ValidationError(
+                {'end_time': "La hora final no puede ser menor o igual a la hora inicial."})
+        time_range = (data['start_time'], data['end_time'])
+        overlap = Schedule.objects.get(
+            Q(space=data['space_id']),
+            Q(start_time__range=time_range) | Q(end_time__range=time_range))
+        if overlap is not None:
+            raise serializers.ValidationError(
+                {'rangeOverlap': "Existe un traslape en los horarios ingresados."})
         return data
 
     def get_or_create_groups(self, groups):
@@ -67,14 +74,10 @@ class UpdateSpaceSchedulesSerializer(BaseSerializer):
     def create_or_update_groups(self, groups):
         groups_ids = []
         for group in groups:
-            group_instance, created = Group.objects.update_or_create(pk=group.get('id'), defaults=group)
+            group_instance, created = Group.objects.update_or_create(
+                pk=group.get('id'), defaults=group)
             groups_ids.append(group_instance.pk)
         return groups_ids
-
-    def remove_groups(self, groups):
-        schedule = self.get_object()
-        groups_to_remove = [record.pop("id") for record in groups]
-        schedule.groups.all().exclude()
 
     def create(self, validated_data):
         groups = validated_data.pop('groups', [])
@@ -100,9 +103,6 @@ class UpdateSpaceSchedulesSerializer(BaseSerializer):
         model = Schedule
         fields = "__all__"
         optional_fields = ['space', ]
-        """ extra_kwargs = {
-            'space': {'write_only': True}            
-        }  """ 
 
 
 """ HOLIDAYS """

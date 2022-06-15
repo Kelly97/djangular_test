@@ -41,7 +41,7 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
 
   commonFunctions = commonFunctions;
   moment = moment;
-  weekDays = JSON.parse(JSON.stringify(commonFunctions.weekDays));
+  weekDays = commonFunctions.deepCopy(commonFunctions.weekDays);
 
   schedule: schedule = { day: null, label: null, ranges: [] };
   rangesCopy: timeRange[] = [];
@@ -76,12 +76,12 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
   toogleCheckDay(event) {
     if (event.checked === true) {
       if (this.rangesCopy.length > 0) {
-        this.schedule.ranges = Object.assign([], this.rangesCopy)
+        this.schedule.ranges = commonFunctions.deepCopy(this.rangesCopy)
       } else {
         this.onAdd();
       }
     } else if (event.checked === false) {
-      this.rangesCopy = Object.assign([], this.schedule?.ranges);
+      this.rangesCopy = commonFunctions.deepCopy(this.schedule?.ranges);
       this.schedule.ranges = []
     }
     this.onChange(this.schedule);
@@ -117,11 +117,24 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
 
   onCopy() {
     const days = this.weekDays.filter((day: any) => day.day != this.schedule.day && day.checked)
-    const data = {
-      days: days.map(day => day.day),
-      ranges: this.schedule.ranges
-    }
-    this.onCopied.emit(data);
+    let ranges = commonFunctions.deepCopy(this.schedule.ranges);
+    ranges = ranges.map(range => {
+      return {
+        id: null,
+        groups: range.groups?.filter(group => group.checked),
+        start_time: range.start_time,
+        end_time: range.end_time
+      }
+    });
+    days.forEach(day => {
+      ranges.map(range => { range.day = day.day });
+      const data = {
+        day: day.day,
+        ranges: ranges
+      }
+      console.log(data)
+      this.onCopied.emit(data);
+    });
     this.weekDays.map((day: any) => day.checked = false);
   }
 
@@ -131,7 +144,7 @@ export class DaySchedulesComponent implements ControlValueAccessor, Validator {
       element.end_time = commonFunctions.getTime(element.end_time, "HH:mm")
       element.start_time = commonFunctions.getTime(element.start_time, "HH:mm")
       const groupsChecked = JSON.parse(JSON.stringify(element.groups))
-      element.groups = JSON.parse(JSON.stringify(this.groups))
+      element.groups = commonFunctions.deepCopy(this.groups);
       groupsChecked.forEach(group => {
         element.groups.find(el => el.id === group.id).checked = true;
       })

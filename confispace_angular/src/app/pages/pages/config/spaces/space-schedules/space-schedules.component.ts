@@ -9,6 +9,7 @@ import { commonFunctions } from 'src/app/utilities/common-functions';
 import { FormControl, FormGroup } from '@angular/forms';
 import { group } from 'src/app/components/day-schedules/day-schedules.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'vex-space-schedules',
@@ -44,7 +45,8 @@ export class SpaceSchedulesComponent implements OnInit, OnDestroy {
     public navigation: NavigationService,
     public route: ActivatedRoute,
     private spaceServices: SpacesService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private globalService: GlobalService) { }
 
   ngOnInit(): void {
     this.commonFunctions.weekDays.forEach(day => {
@@ -78,12 +80,14 @@ export class SpaceSchedulesComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this.schedulesform.markAllAsTouched()
-    if (this.schedulesform.valid) {
+    if (this.globalService.valideForm(this.schedulesform)) {
       let schedules = [];
-      let val = this.schedulesform.value;
+      let val = commonFunctions.deepCopy(this.schedulesform.value);
       Object.keys(val).forEach(key => {
         if (val[key]['ranges']) {
+          val[key]['ranges']?.map(range => {
+            range.groups = range.groups?.filter(group => group.checked);
+          });
           schedules = schedules.concat(val[key]['ranges'])
         }
       })
@@ -99,10 +103,8 @@ export class SpaceSchedulesComponent implements OnInit, OnDestroy {
 
   copySchedule(event) {
     if (event) {
-      event.days.forEach(day => {
-        const dayControl = this.schedulesform.get(day.toString()).value;
-        this.schedulesform.get(day.toString()).setValue({ ...dayControl, ranges: JSON.parse(JSON.stringify(event.ranges)) });
-      });
+      const dayControl = this.schedulesform.get(event.day.toString()).value;
+      this.schedulesform.get(event.day.toString()).setValue({ ...dayControl, ranges: commonFunctions.deepCopy(event.ranges) });
     }
   }
 }
